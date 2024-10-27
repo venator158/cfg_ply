@@ -1,0 +1,446 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    EQUALS
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> statement_list
+Rule 2     statement_list -> statement statement_list
+Rule 3     statement_list -> statement
+Rule 4     statement -> IF expression COLON
+Rule 5     statement -> IF expression COLON NEWLINE
+Rule 6     statement -> ELIF expression COLON
+Rule 7     statement -> ELIF expression COLON NEWLINE
+Rule 8     statement -> ELSE COLON
+Rule 9     statement -> ELSE COLON NEWLINE
+Rule 10    expression -> expression GREATER expression
+Rule 11    expression -> expression LESSER expression
+Rule 12    expression -> expression GREATER_EQUALS expression
+Rule 13    expression -> expression LESSER_EQUALS expression
+Rule 14    expression -> IDENTIFIER
+Rule 15    expression -> NUMBER
+
+Terminals, with rules where they appear
+
+COLON                : 4 5 6 7 8 9
+ELIF                 : 6 7
+ELSE                 : 8 9
+EQUALS               : 
+GREATER              : 10
+GREATER_EQUALS       : 12
+IDENTIFIER           : 14
+IF                   : 4 5
+LESSER               : 11
+LESSER_EQUALS        : 13
+NEWLINE              : 5 7 9
+NUMBER               : 15
+error                : 
+
+Nonterminals, with rules where they appear
+
+expression           : 4 5 6 7 10 10 11 11 12 12 13 13
+program              : 0
+statement            : 2 3
+statement_list       : 1 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . statement_list
+    (2) statement_list -> . statement statement_list
+    (3) statement_list -> . statement
+    (4) statement -> . IF expression COLON
+    (5) statement -> . IF expression COLON NEWLINE
+    (6) statement -> . ELIF expression COLON
+    (7) statement -> . ELIF expression COLON NEWLINE
+    (8) statement -> . ELSE COLON
+    (9) statement -> . ELSE COLON NEWLINE
+
+    IF              shift and go to state 4
+    ELIF            shift and go to state 5
+    ELSE            shift and go to state 6
+
+    program                        shift and go to state 1
+    statement_list                 shift and go to state 2
+    statement                      shift and go to state 3
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> statement_list .
+
+    $end            reduce using rule 1 (program -> statement_list .)
+
+
+state 3
+
+    (2) statement_list -> statement . statement_list
+    (3) statement_list -> statement .
+    (2) statement_list -> . statement statement_list
+    (3) statement_list -> . statement
+    (4) statement -> . IF expression COLON
+    (5) statement -> . IF expression COLON NEWLINE
+    (6) statement -> . ELIF expression COLON
+    (7) statement -> . ELIF expression COLON NEWLINE
+    (8) statement -> . ELSE COLON
+    (9) statement -> . ELSE COLON NEWLINE
+
+    $end            reduce using rule 3 (statement_list -> statement .)
+    IF              shift and go to state 4
+    ELIF            shift and go to state 5
+    ELSE            shift and go to state 6
+
+    statement                      shift and go to state 3
+    statement_list                 shift and go to state 7
+
+state 4
+
+    (4) statement -> IF . expression COLON
+    (5) statement -> IF . expression COLON NEWLINE
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . expression LESSER expression
+    (12) expression -> . expression GREATER_EQUALS expression
+    (13) expression -> . expression LESSER_EQUALS expression
+    (14) expression -> . IDENTIFIER
+    (15) expression -> . NUMBER
+
+    IDENTIFIER      shift and go to state 9
+    NUMBER          shift and go to state 10
+
+    expression                     shift and go to state 8
+
+state 5
+
+    (6) statement -> ELIF . expression COLON
+    (7) statement -> ELIF . expression COLON NEWLINE
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . expression LESSER expression
+    (12) expression -> . expression GREATER_EQUALS expression
+    (13) expression -> . expression LESSER_EQUALS expression
+    (14) expression -> . IDENTIFIER
+    (15) expression -> . NUMBER
+
+    IDENTIFIER      shift and go to state 9
+    NUMBER          shift and go to state 10
+
+    expression                     shift and go to state 11
+
+state 6
+
+    (8) statement -> ELSE . COLON
+    (9) statement -> ELSE . COLON NEWLINE
+
+    COLON           shift and go to state 12
+
+
+state 7
+
+    (2) statement_list -> statement statement_list .
+
+    $end            reduce using rule 2 (statement_list -> statement statement_list .)
+
+
+state 8
+
+    (4) statement -> IF expression . COLON
+    (5) statement -> IF expression . COLON NEWLINE
+    (10) expression -> expression . GREATER expression
+    (11) expression -> expression . LESSER expression
+    (12) expression -> expression . GREATER_EQUALS expression
+    (13) expression -> expression . LESSER_EQUALS expression
+
+    COLON           shift and go to state 13
+    GREATER         shift and go to state 14
+    LESSER          shift and go to state 15
+    GREATER_EQUALS  shift and go to state 16
+    LESSER_EQUALS   shift and go to state 17
+
+
+state 9
+
+    (14) expression -> IDENTIFIER .
+
+    COLON           reduce using rule 14 (expression -> IDENTIFIER .)
+    GREATER         reduce using rule 14 (expression -> IDENTIFIER .)
+    LESSER          reduce using rule 14 (expression -> IDENTIFIER .)
+    GREATER_EQUALS  reduce using rule 14 (expression -> IDENTIFIER .)
+    LESSER_EQUALS   reduce using rule 14 (expression -> IDENTIFIER .)
+
+
+state 10
+
+    (15) expression -> NUMBER .
+
+    COLON           reduce using rule 15 (expression -> NUMBER .)
+    GREATER         reduce using rule 15 (expression -> NUMBER .)
+    LESSER          reduce using rule 15 (expression -> NUMBER .)
+    GREATER_EQUALS  reduce using rule 15 (expression -> NUMBER .)
+    LESSER_EQUALS   reduce using rule 15 (expression -> NUMBER .)
+
+
+state 11
+
+    (6) statement -> ELIF expression . COLON
+    (7) statement -> ELIF expression . COLON NEWLINE
+    (10) expression -> expression . GREATER expression
+    (11) expression -> expression . LESSER expression
+    (12) expression -> expression . GREATER_EQUALS expression
+    (13) expression -> expression . LESSER_EQUALS expression
+
+    COLON           shift and go to state 18
+    GREATER         shift and go to state 14
+    LESSER          shift and go to state 15
+    GREATER_EQUALS  shift and go to state 16
+    LESSER_EQUALS   shift and go to state 17
+
+
+state 12
+
+    (8) statement -> ELSE COLON .
+    (9) statement -> ELSE COLON . NEWLINE
+
+    IF              reduce using rule 8 (statement -> ELSE COLON .)
+    ELIF            reduce using rule 8 (statement -> ELSE COLON .)
+    ELSE            reduce using rule 8 (statement -> ELSE COLON .)
+    $end            reduce using rule 8 (statement -> ELSE COLON .)
+    NEWLINE         shift and go to state 19
+
+
+state 13
+
+    (4) statement -> IF expression COLON .
+    (5) statement -> IF expression COLON . NEWLINE
+
+    IF              reduce using rule 4 (statement -> IF expression COLON .)
+    ELIF            reduce using rule 4 (statement -> IF expression COLON .)
+    ELSE            reduce using rule 4 (statement -> IF expression COLON .)
+    $end            reduce using rule 4 (statement -> IF expression COLON .)
+    NEWLINE         shift and go to state 20
+
+
+state 14
+
+    (10) expression -> expression GREATER . expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . expression LESSER expression
+    (12) expression -> . expression GREATER_EQUALS expression
+    (13) expression -> . expression LESSER_EQUALS expression
+    (14) expression -> . IDENTIFIER
+    (15) expression -> . NUMBER
+
+    IDENTIFIER      shift and go to state 9
+    NUMBER          shift and go to state 10
+
+    expression                     shift and go to state 21
+
+state 15
+
+    (11) expression -> expression LESSER . expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . expression LESSER expression
+    (12) expression -> . expression GREATER_EQUALS expression
+    (13) expression -> . expression LESSER_EQUALS expression
+    (14) expression -> . IDENTIFIER
+    (15) expression -> . NUMBER
+
+    IDENTIFIER      shift and go to state 9
+    NUMBER          shift and go to state 10
+
+    expression                     shift and go to state 22
+
+state 16
+
+    (12) expression -> expression GREATER_EQUALS . expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . expression LESSER expression
+    (12) expression -> . expression GREATER_EQUALS expression
+    (13) expression -> . expression LESSER_EQUALS expression
+    (14) expression -> . IDENTIFIER
+    (15) expression -> . NUMBER
+
+    IDENTIFIER      shift and go to state 9
+    NUMBER          shift and go to state 10
+
+    expression                     shift and go to state 23
+
+state 17
+
+    (13) expression -> expression LESSER_EQUALS . expression
+    (10) expression -> . expression GREATER expression
+    (11) expression -> . expression LESSER expression
+    (12) expression -> . expression GREATER_EQUALS expression
+    (13) expression -> . expression LESSER_EQUALS expression
+    (14) expression -> . IDENTIFIER
+    (15) expression -> . NUMBER
+
+    IDENTIFIER      shift and go to state 9
+    NUMBER          shift and go to state 10
+
+    expression                     shift and go to state 24
+
+state 18
+
+    (6) statement -> ELIF expression COLON .
+    (7) statement -> ELIF expression COLON . NEWLINE
+
+    IF              reduce using rule 6 (statement -> ELIF expression COLON .)
+    ELIF            reduce using rule 6 (statement -> ELIF expression COLON .)
+    ELSE            reduce using rule 6 (statement -> ELIF expression COLON .)
+    $end            reduce using rule 6 (statement -> ELIF expression COLON .)
+    NEWLINE         shift and go to state 25
+
+
+state 19
+
+    (9) statement -> ELSE COLON NEWLINE .
+
+    IF              reduce using rule 9 (statement -> ELSE COLON NEWLINE .)
+    ELIF            reduce using rule 9 (statement -> ELSE COLON NEWLINE .)
+    ELSE            reduce using rule 9 (statement -> ELSE COLON NEWLINE .)
+    $end            reduce using rule 9 (statement -> ELSE COLON NEWLINE .)
+
+
+state 20
+
+    (5) statement -> IF expression COLON NEWLINE .
+
+    IF              reduce using rule 5 (statement -> IF expression COLON NEWLINE .)
+    ELIF            reduce using rule 5 (statement -> IF expression COLON NEWLINE .)
+    ELSE            reduce using rule 5 (statement -> IF expression COLON NEWLINE .)
+    $end            reduce using rule 5 (statement -> IF expression COLON NEWLINE .)
+
+
+state 21
+
+    (10) expression -> expression GREATER expression .
+    (10) expression -> expression . GREATER expression
+    (11) expression -> expression . LESSER expression
+    (12) expression -> expression . GREATER_EQUALS expression
+    (13) expression -> expression . LESSER_EQUALS expression
+
+  ! shift/reduce conflict for GREATER resolved as shift
+  ! shift/reduce conflict for LESSER resolved as shift
+  ! shift/reduce conflict for GREATER_EQUALS resolved as shift
+  ! shift/reduce conflict for LESSER_EQUALS resolved as shift
+    COLON           reduce using rule 10 (expression -> expression GREATER expression .)
+    GREATER         shift and go to state 14
+    LESSER          shift and go to state 15
+    GREATER_EQUALS  shift and go to state 16
+    LESSER_EQUALS   shift and go to state 17
+
+  ! GREATER         [ reduce using rule 10 (expression -> expression GREATER expression .) ]
+  ! LESSER          [ reduce using rule 10 (expression -> expression GREATER expression .) ]
+  ! GREATER_EQUALS  [ reduce using rule 10 (expression -> expression GREATER expression .) ]
+  ! LESSER_EQUALS   [ reduce using rule 10 (expression -> expression GREATER expression .) ]
+
+
+state 22
+
+    (11) expression -> expression LESSER expression .
+    (10) expression -> expression . GREATER expression
+    (11) expression -> expression . LESSER expression
+    (12) expression -> expression . GREATER_EQUALS expression
+    (13) expression -> expression . LESSER_EQUALS expression
+
+  ! shift/reduce conflict for GREATER resolved as shift
+  ! shift/reduce conflict for LESSER resolved as shift
+  ! shift/reduce conflict for GREATER_EQUALS resolved as shift
+  ! shift/reduce conflict for LESSER_EQUALS resolved as shift
+    COLON           reduce using rule 11 (expression -> expression LESSER expression .)
+    GREATER         shift and go to state 14
+    LESSER          shift and go to state 15
+    GREATER_EQUALS  shift and go to state 16
+    LESSER_EQUALS   shift and go to state 17
+
+  ! GREATER         [ reduce using rule 11 (expression -> expression LESSER expression .) ]
+  ! LESSER          [ reduce using rule 11 (expression -> expression LESSER expression .) ]
+  ! GREATER_EQUALS  [ reduce using rule 11 (expression -> expression LESSER expression .) ]
+  ! LESSER_EQUALS   [ reduce using rule 11 (expression -> expression LESSER expression .) ]
+
+
+state 23
+
+    (12) expression -> expression GREATER_EQUALS expression .
+    (10) expression -> expression . GREATER expression
+    (11) expression -> expression . LESSER expression
+    (12) expression -> expression . GREATER_EQUALS expression
+    (13) expression -> expression . LESSER_EQUALS expression
+
+  ! shift/reduce conflict for GREATER resolved as shift
+  ! shift/reduce conflict for LESSER resolved as shift
+  ! shift/reduce conflict for GREATER_EQUALS resolved as shift
+  ! shift/reduce conflict for LESSER_EQUALS resolved as shift
+    COLON           reduce using rule 12 (expression -> expression GREATER_EQUALS expression .)
+    GREATER         shift and go to state 14
+    LESSER          shift and go to state 15
+    GREATER_EQUALS  shift and go to state 16
+    LESSER_EQUALS   shift and go to state 17
+
+  ! GREATER         [ reduce using rule 12 (expression -> expression GREATER_EQUALS expression .) ]
+  ! LESSER          [ reduce using rule 12 (expression -> expression GREATER_EQUALS expression .) ]
+  ! GREATER_EQUALS  [ reduce using rule 12 (expression -> expression GREATER_EQUALS expression .) ]
+  ! LESSER_EQUALS   [ reduce using rule 12 (expression -> expression GREATER_EQUALS expression .) ]
+
+
+state 24
+
+    (13) expression -> expression LESSER_EQUALS expression .
+    (10) expression -> expression . GREATER expression
+    (11) expression -> expression . LESSER expression
+    (12) expression -> expression . GREATER_EQUALS expression
+    (13) expression -> expression . LESSER_EQUALS expression
+
+  ! shift/reduce conflict for GREATER resolved as shift
+  ! shift/reduce conflict for LESSER resolved as shift
+  ! shift/reduce conflict for GREATER_EQUALS resolved as shift
+  ! shift/reduce conflict for LESSER_EQUALS resolved as shift
+    COLON           reduce using rule 13 (expression -> expression LESSER_EQUALS expression .)
+    GREATER         shift and go to state 14
+    LESSER          shift and go to state 15
+    GREATER_EQUALS  shift and go to state 16
+    LESSER_EQUALS   shift and go to state 17
+
+  ! GREATER         [ reduce using rule 13 (expression -> expression LESSER_EQUALS expression .) ]
+  ! LESSER          [ reduce using rule 13 (expression -> expression LESSER_EQUALS expression .) ]
+  ! GREATER_EQUALS  [ reduce using rule 13 (expression -> expression LESSER_EQUALS expression .) ]
+  ! LESSER_EQUALS   [ reduce using rule 13 (expression -> expression LESSER_EQUALS expression .) ]
+
+
+state 25
+
+    (7) statement -> ELIF expression COLON NEWLINE .
+
+    IF              reduce using rule 7 (statement -> ELIF expression COLON NEWLINE .)
+    ELIF            reduce using rule 7 (statement -> ELIF expression COLON NEWLINE .)
+    ELSE            reduce using rule 7 (statement -> ELIF expression COLON NEWLINE .)
+    $end            reduce using rule 7 (statement -> ELIF expression COLON NEWLINE .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for GREATER in state 21 resolved as shift
+WARNING: shift/reduce conflict for LESSER in state 21 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS in state 21 resolved as shift
+WARNING: shift/reduce conflict for LESSER_EQUALS in state 21 resolved as shift
+WARNING: shift/reduce conflict for GREATER in state 22 resolved as shift
+WARNING: shift/reduce conflict for LESSER in state 22 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS in state 22 resolved as shift
+WARNING: shift/reduce conflict for LESSER_EQUALS in state 22 resolved as shift
+WARNING: shift/reduce conflict for GREATER in state 23 resolved as shift
+WARNING: shift/reduce conflict for LESSER in state 23 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS in state 23 resolved as shift
+WARNING: shift/reduce conflict for LESSER_EQUALS in state 23 resolved as shift
+WARNING: shift/reduce conflict for GREATER in state 24 resolved as shift
+WARNING: shift/reduce conflict for LESSER in state 24 resolved as shift
+WARNING: shift/reduce conflict for GREATER_EQUALS in state 24 resolved as shift
+WARNING: shift/reduce conflict for LESSER_EQUALS in state 24 resolved as shift
