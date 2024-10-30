@@ -1,18 +1,14 @@
- 
 import re
 
- 
 token_specs = [
-    ('TYPE', r'\b(int|float|double|char|short|long|unsigned|signed)\b'),
-    ('POINTER', r'\*'),
-    ('IDENTIFIER', r'\b[a-zA-Z_][a-zA-Z0-9_]*\b'),
-    ('ASSIGN', r'='),
-    ('SEMICOLON', r';'),
-    ('INT_VALUE', r'\b[0-9]+\b'),
-    ('FLOAT_VALUE', r'\b[0-9]+\.[0-9]+\b'),
-    ('CHAR_VALUE', r"'.'"),
-    ('STRING_VALUE', r'"[^"]*"'),
-    ('WHITESPACE', r'\s+'),   
+    ('IDENTIFIER', r'\b[a-zA-Z_][a-zA-Z0-9_]*\b'),  # Variable names
+    ('ASSIGN', r'='),                              # Assignment operator
+    ('INT_VALUE', r'\b[0-9]+\b'),                 # Integer values
+    ('FLOAT_VALUE', r'\b[0-9]+\.[0-9]+\b'),       # Float values
+    ('CHAR_VALUE', r"'.'"),                        # Character values
+    ('STRING_VALUE', r'"[^"]*"'),                  # String values
+    ('SEMICOLON', r';'),                           # Semicolon (not typically used in Python)
+    ('WHITESPACE', r'\s+'),                        # Whitespace
 ]
 
 token_regex = '|'.join(f'(?P<{name}>{pattern})' for name, pattern in token_specs)

@@ -2,200 +2,43 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
+    COLON
+    EQUALS
+    FOR
+    IN
+    NUMBER
     PLUS
 
 Grammar
 
-Rule 0     S' -> for_loop
-Rule 1     for_loop -> FOR IDENTIFIER IN func_call COLON
-Rule 2     func_call -> IDENTIFIER LPAREN expression RPAREN
-Rule 3     func_call -> IDENTIFIER LPAREN expression COMMA expression RPAREN
-Rule 4     func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA expression RPAREN
-Rule 5     expression -> IDENTIFIER
-Rule 6     expression -> NUMBER
-Rule 7     statement -> IDENTIFIER EQUALS expression
+Rule 0     S' -> function_declaration
+Rule 1     function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON
+Rule 2     parameter_list -> LPAREN parameter_declarations RPAREN
+Rule 3     parameter_list -> LPAREN RPAREN
+Rule 4     parameter_declarations -> parameter_declaration
+Rule 5     parameter_declarations -> parameter_declaration COMMA parameter_declarations
+Rule 6     parameter_declaration -> TYPE IDENTIFIER
 
 Terminals, with rules where they appear
 
-COLON                : 1
-COMMA                : 3 4 4
-EQUALS               : 7
-FOR                  : 1
-IDENTIFIER           : 1 2 3 4 5 7
-IN                   : 1
-LPAREN               : 2 3 4
-NUMBER               : 6
+COLON                : 
+COMMA                : 5
+EQUALS               : 
+FOR                  : 
+IDENTIFIER           : 1 6
+IN                   : 
+LPAREN               : 2 3
+NUMBER               : 
 PLUS                 : 
-RPAREN               : 2 3 4
+RPAREN               : 2 3
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 2 3 3 4 4 4 7
-for_loop             : 0
-func_call            : 1
-statement            : 
-
-Parsing method: LALR
-
-state 0
-
-    (0) S' -> . for_loop
-    (1) for_loop -> . FOR IDENTIFIER IN func_call COLON
-
-    FOR             shift and go to state 2
-
-    for_loop                       shift and go to state 1
-
-state 1
-
-    (0) S' -> for_loop .
-
-
-
-state 2
-
-    (1) for_loop -> FOR . IDENTIFIER IN func_call COLON
-
-    IDENTIFIER      shift and go to state 3
-
-
-state 3
-
-    (1) for_loop -> FOR IDENTIFIER . IN func_call COLON
-
-    IN              shift and go to state 4
-
-
-state 4
-
-    (1) for_loop -> FOR IDENTIFIER IN . func_call COLON
-    (2) func_call -> . IDENTIFIER LPAREN expression RPAREN
-    (3) func_call -> . IDENTIFIER LPAREN expression COMMA expression RPAREN
-    (4) func_call -> . IDENTIFIER LPAREN expression COMMA expression COMMA expression RPAREN
-
-    IDENTIFIER      shift and go to state 5
-
-    func_call                      shift and go to state 6
-
-state 5
-
-    (2) func_call -> IDENTIFIER . LPAREN expression RPAREN
-    (3) func_call -> IDENTIFIER . LPAREN expression COMMA expression RPAREN
-    (4) func_call -> IDENTIFIER . LPAREN expression COMMA expression COMMA expression RPAREN
-
-    LPAREN          shift and go to state 7
-
-
-state 6
-
-    (1) for_loop -> FOR IDENTIFIER IN func_call . COLON
-
-    COLON           shift and go to state 8
-
-
-state 7
-
-    (2) func_call -> IDENTIFIER LPAREN . expression RPAREN
-    (3) func_call -> IDENTIFIER LPAREN . expression COMMA expression RPAREN
-    (4) func_call -> IDENTIFIER LPAREN . expression COMMA expression COMMA expression RPAREN
-    (5) expression -> . IDENTIFIER
-    (6) expression -> . NUMBER
-
-    IDENTIFIER      shift and go to state 9
-    NUMBER          shift and go to state 11
-
-    expression                     shift and go to state 10
-
-state 8
-
-    (1) for_loop -> FOR IDENTIFIER IN func_call COLON .
-
-    $end            reduce using rule 1 (for_loop -> FOR IDENTIFIER IN func_call COLON .)
-
-
-state 9
-
-    (5) expression -> IDENTIFIER .
-
-    RPAREN          reduce using rule 5 (expression -> IDENTIFIER .)
-    COMMA           reduce using rule 5 (expression -> IDENTIFIER .)
-
-
-state 10
-
-    (2) func_call -> IDENTIFIER LPAREN expression . RPAREN
-    (3) func_call -> IDENTIFIER LPAREN expression . COMMA expression RPAREN
-    (4) func_call -> IDENTIFIER LPAREN expression . COMMA expression COMMA expression RPAREN
-
-    RPAREN          shift and go to state 12
-    COMMA           shift and go to state 13
-
-
-state 11
-
-    (6) expression -> NUMBER .
-
-    RPAREN          reduce using rule 6 (expression -> NUMBER .)
-    COMMA           reduce using rule 6 (expression -> NUMBER .)
-
-
-state 12
-
-    (2) func_call -> IDENTIFIER LPAREN expression RPAREN .
-
-    COLON           reduce using rule 2 (func_call -> IDENTIFIER LPAREN expression RPAREN .)
-
-
-state 13
-
-    (3) func_call -> IDENTIFIER LPAREN expression COMMA . expression RPAREN
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA . expression COMMA expression RPAREN
-    (5) expression -> . IDENTIFIER
-    (6) expression -> . NUMBER
-
-    IDENTIFIER      shift and go to state 9
-    NUMBER          shift and go to state 11
-
-    expression                     shift and go to state 14
-
-state 14
-
-    (3) func_call -> IDENTIFIER LPAREN expression COMMA expression . RPAREN
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA expression . COMMA expression RPAREN
-
-    RPAREN          shift and go to state 16
-    COMMA           shift and go to state 15
-
-
-state 15
-
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA . expression RPAREN
-    (5) expression -> . IDENTIFIER
-    (6) expression -> . NUMBER
-
-    IDENTIFIER      shift and go to state 9
-    NUMBER          shift and go to state 11
-
-    expression                     shift and go to state 17
-
-state 16
-
-    (3) func_call -> IDENTIFIER LPAREN expression COMMA expression RPAREN .
-
-    COLON           reduce using rule 3 (func_call -> IDENTIFIER LPAREN expression COMMA expression RPAREN .)
-
-
-state 17
-
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA expression . RPAREN
-
-    RPAREN          shift and go to state 18
-
-
-state 18
-
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA expression RPAREN .
-
-    COLON           reduce using rule 4 (func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA expression RPAREN .)
+SEMICOLON            : 1
+TYPE                 : 1 6
+function_declaration : 0
+parameter_declaration : 4 5
+parameter_declarations : 2 5
+parameter_list       : 1
 

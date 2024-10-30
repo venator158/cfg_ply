@@ -1,52 +1,44 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
+Unused terminals:
+
+    ASSIGN
+    LBRACE
+    NUMBER
+    RBRACE
+    RETURN
+
 Grammar
 
 Rule 0     S' -> function_declaration
 Rule 1     function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON
-Rule 2     function_declaration -> function_definition
-Rule 3     function_definition -> TYPE IDENTIFIER parameter_list LBRACE statement_list RBRACE
-Rule 4     parameter_list -> LPAREN parameter_declarations RPAREN
-Rule 5     parameter_list -> LPAREN RPAREN
-Rule 6     parameter_declarations -> parameter_declaration
-Rule 7     parameter_declarations -> parameter_declaration COMMA parameter_declarations
-Rule 8     parameter_declaration -> TYPE IDENTIFIER
-Rule 9     statement_list -> statement
-Rule 10    statement_list -> statement_list statement
-Rule 11    statement -> RETURN expression SEMICOLON
-Rule 12    statement -> RETURN SEMICOLON
-Rule 13    statement -> IDENTIFIER ASSIGN expression SEMICOLON
-Rule 14    statement -> empty
-Rule 15    expression -> IDENTIFIER
-Rule 16    expression -> NUMBER
-Rule 17    empty -> <empty>
+Rule 2     parameter_list -> LPAREN parameter_declarations RPAREN
+Rule 3     parameter_list -> LPAREN RPAREN
+Rule 4     parameter_declarations -> parameter_declaration
+Rule 5     parameter_declarations -> parameter_declaration COMMA parameter_declarations
+Rule 6     parameter_declaration -> TYPE IDENTIFIER
 
 Terminals, with rules where they appear
 
-ASSIGN               : 13
-COMMA                : 7
-IDENTIFIER           : 1 3 8 13 15
-LBRACE               : 3
-LPAREN               : 4 5
-NUMBER               : 16
-RBRACE               : 3
-RETURN               : 11 12
-RPAREN               : 4 5
-SEMICOLON            : 1 11 12 13
-TYPE                 : 1 3 8
+ASSIGN               : 
+COMMA                : 5
+IDENTIFIER           : 1 6
+LBRACE               : 
+LPAREN               : 2 3
+NUMBER               : 
+RBRACE               : 
+RETURN               : 
+RPAREN               : 2 3
+SEMICOLON            : 1
+TYPE                 : 1 6
 error                : 
 
 Nonterminals, with rules where they appear
 
-empty                : 14
-expression           : 11 13
 function_declaration : 0
-function_definition  : 2
-parameter_declaration : 6 7
-parameter_declarations : 4 7
-parameter_list       : 1 3
-statement            : 9 10
-statement_list       : 3 10
+parameter_declaration : 4 5
+parameter_declarations : 2 5
+parameter_list       : 1
 
 Parsing method: LALR
 
@@ -54,13 +46,10 @@ state 0
 
     (0) S' -> . function_declaration
     (1) function_declaration -> . TYPE IDENTIFIER parameter_list SEMICOLON
-    (2) function_declaration -> . function_definition
-    (3) function_definition -> . TYPE IDENTIFIER parameter_list LBRACE statement_list RBRACE
 
     TYPE            shift and go to state 2
 
     function_declaration           shift and go to state 1
-    function_definition            shift and go to state 3
 
 state 1
 
@@ -71,297 +60,108 @@ state 1
 state 2
 
     (1) function_declaration -> TYPE . IDENTIFIER parameter_list SEMICOLON
-    (3) function_definition -> TYPE . IDENTIFIER parameter_list LBRACE statement_list RBRACE
 
-    IDENTIFIER      shift and go to state 4
+    IDENTIFIER      shift and go to state 3
 
 
 state 3
 
-    (2) function_declaration -> function_definition .
+    (1) function_declaration -> TYPE IDENTIFIER . parameter_list SEMICOLON
+    (2) parameter_list -> . LPAREN parameter_declarations RPAREN
+    (3) parameter_list -> . LPAREN RPAREN
 
-    $end            reduce using rule 2 (function_declaration -> function_definition .)
+    LPAREN          shift and go to state 5
 
+    parameter_list                 shift and go to state 4
 
 state 4
 
-    (1) function_declaration -> TYPE IDENTIFIER . parameter_list SEMICOLON
-    (3) function_definition -> TYPE IDENTIFIER . parameter_list LBRACE statement_list RBRACE
-    (4) parameter_list -> . LPAREN parameter_declarations RPAREN
-    (5) parameter_list -> . LPAREN RPAREN
+    (1) function_declaration -> TYPE IDENTIFIER parameter_list . SEMICOLON
 
-    LPAREN          shift and go to state 6
+    SEMICOLON       shift and go to state 6
 
-    parameter_list                 shift and go to state 5
 
 state 5
 
-    (1) function_declaration -> TYPE IDENTIFIER parameter_list . SEMICOLON
-    (3) function_definition -> TYPE IDENTIFIER parameter_list . LBRACE statement_list RBRACE
+    (2) parameter_list -> LPAREN . parameter_declarations RPAREN
+    (3) parameter_list -> LPAREN . RPAREN
+    (4) parameter_declarations -> . parameter_declaration
+    (5) parameter_declarations -> . parameter_declaration COMMA parameter_declarations
+    (6) parameter_declaration -> . TYPE IDENTIFIER
 
-    SEMICOLON       shift and go to state 7
-    LBRACE          shift and go to state 8
+    RPAREN          shift and go to state 8
+    TYPE            shift and go to state 10
 
+    parameter_declarations         shift and go to state 7
+    parameter_declaration          shift and go to state 9
 
 state 6
-
-    (4) parameter_list -> LPAREN . parameter_declarations RPAREN
-    (5) parameter_list -> LPAREN . RPAREN
-    (6) parameter_declarations -> . parameter_declaration
-    (7) parameter_declarations -> . parameter_declaration COMMA parameter_declarations
-    (8) parameter_declaration -> . TYPE IDENTIFIER
-
-    RPAREN          shift and go to state 10
-    TYPE            shift and go to state 12
-
-    parameter_declarations         shift and go to state 9
-    parameter_declaration          shift and go to state 11
-
-state 7
 
     (1) function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON .
 
     $end            reduce using rule 1 (function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON .)
 
 
+state 7
+
+    (2) parameter_list -> LPAREN parameter_declarations . RPAREN
+
+    RPAREN          shift and go to state 11
+
+
 state 8
 
-    (3) function_definition -> TYPE IDENTIFIER parameter_list LBRACE . statement_list RBRACE
-    (9) statement_list -> . statement
-    (10) statement_list -> . statement_list statement
-    (11) statement -> . RETURN expression SEMICOLON
-    (12) statement -> . RETURN SEMICOLON
-    (13) statement -> . IDENTIFIER ASSIGN expression SEMICOLON
-    (14) statement -> . empty
-    (17) empty -> .
+    (3) parameter_list -> LPAREN RPAREN .
 
-  ! shift/reduce conflict for RETURN resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-    RETURN          shift and go to state 16
-    IDENTIFIER      shift and go to state 13
-    RBRACE          reduce using rule 17 (empty -> .)
+    SEMICOLON       reduce using rule 3 (parameter_list -> LPAREN RPAREN .)
 
-  ! RETURN          [ reduce using rule 17 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 17 (empty -> .) ]
-
-    statement_list                 shift and go to state 14
-    statement                      shift and go to state 15
-    empty                          shift and go to state 17
 
 state 9
 
-    (4) parameter_list -> LPAREN parameter_declarations . RPAREN
+    (4) parameter_declarations -> parameter_declaration .
+    (5) parameter_declarations -> parameter_declaration . COMMA parameter_declarations
 
-    RPAREN          shift and go to state 18
+    RPAREN          reduce using rule 4 (parameter_declarations -> parameter_declaration .)
+    COMMA           shift and go to state 12
 
 
 state 10
 
-    (5) parameter_list -> LPAREN RPAREN .
+    (6) parameter_declaration -> TYPE . IDENTIFIER
 
-    SEMICOLON       reduce using rule 5 (parameter_list -> LPAREN RPAREN .)
-    LBRACE          reduce using rule 5 (parameter_list -> LPAREN RPAREN .)
+    IDENTIFIER      shift and go to state 13
 
 
 state 11
 
-    (6) parameter_declarations -> parameter_declaration .
-    (7) parameter_declarations -> parameter_declaration . COMMA parameter_declarations
+    (2) parameter_list -> LPAREN parameter_declarations RPAREN .
 
-    RPAREN          reduce using rule 6 (parameter_declarations -> parameter_declaration .)
-    COMMA           shift and go to state 19
+    SEMICOLON       reduce using rule 2 (parameter_list -> LPAREN parameter_declarations RPAREN .)
 
 
 state 12
 
-    (8) parameter_declaration -> TYPE . IDENTIFIER
+    (5) parameter_declarations -> parameter_declaration COMMA . parameter_declarations
+    (4) parameter_declarations -> . parameter_declaration
+    (5) parameter_declarations -> . parameter_declaration COMMA parameter_declarations
+    (6) parameter_declaration -> . TYPE IDENTIFIER
 
-    IDENTIFIER      shift and go to state 20
+    TYPE            shift and go to state 10
 
+    parameter_declaration          shift and go to state 9
+    parameter_declarations         shift and go to state 14
 
 state 13
 
-    (13) statement -> IDENTIFIER . ASSIGN expression SEMICOLON
+    (6) parameter_declaration -> TYPE IDENTIFIER .
 
-    ASSIGN          shift and go to state 21
+    COMMA           reduce using rule 6 (parameter_declaration -> TYPE IDENTIFIER .)
+    RPAREN          reduce using rule 6 (parameter_declaration -> TYPE IDENTIFIER .)
 
 
 state 14
 
-    (3) function_definition -> TYPE IDENTIFIER parameter_list LBRACE statement_list . RBRACE
-    (10) statement_list -> statement_list . statement
-    (11) statement -> . RETURN expression SEMICOLON
-    (12) statement -> . RETURN SEMICOLON
-    (13) statement -> . IDENTIFIER ASSIGN expression SEMICOLON
-    (14) statement -> . empty
-    (17) empty -> .
+    (5) parameter_declarations -> parameter_declaration COMMA parameter_declarations .
 
-  ! shift/reduce conflict for RBRACE resolved as shift
-  ! shift/reduce conflict for RETURN resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-    RBRACE          shift and go to state 22
-    RETURN          shift and go to state 16
-    IDENTIFIER      shift and go to state 13
+    RPAREN          reduce using rule 5 (parameter_declarations -> parameter_declaration COMMA parameter_declarations .)
 
-  ! RBRACE          [ reduce using rule 17 (empty -> .) ]
-  ! RETURN          [ reduce using rule 17 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 17 (empty -> .) ]
-
-    statement                      shift and go to state 23
-    empty                          shift and go to state 17
-
-state 15
-
-    (9) statement_list -> statement .
-
-    RBRACE          reduce using rule 9 (statement_list -> statement .)
-    RETURN          reduce using rule 9 (statement_list -> statement .)
-    IDENTIFIER      reduce using rule 9 (statement_list -> statement .)
-
-
-state 16
-
-    (11) statement -> RETURN . expression SEMICOLON
-    (12) statement -> RETURN . SEMICOLON
-    (15) expression -> . IDENTIFIER
-    (16) expression -> . NUMBER
-
-    SEMICOLON       shift and go to state 25
-    IDENTIFIER      shift and go to state 26
-    NUMBER          shift and go to state 27
-
-    expression                     shift and go to state 24
-
-state 17
-
-    (14) statement -> empty .
-
-    RBRACE          reduce using rule 14 (statement -> empty .)
-    RETURN          reduce using rule 14 (statement -> empty .)
-    IDENTIFIER      reduce using rule 14 (statement -> empty .)
-
-
-state 18
-
-    (4) parameter_list -> LPAREN parameter_declarations RPAREN .
-
-    SEMICOLON       reduce using rule 4 (parameter_list -> LPAREN parameter_declarations RPAREN .)
-    LBRACE          reduce using rule 4 (parameter_list -> LPAREN parameter_declarations RPAREN .)
-
-
-state 19
-
-    (7) parameter_declarations -> parameter_declaration COMMA . parameter_declarations
-    (6) parameter_declarations -> . parameter_declaration
-    (7) parameter_declarations -> . parameter_declaration COMMA parameter_declarations
-    (8) parameter_declaration -> . TYPE IDENTIFIER
-
-    TYPE            shift and go to state 12
-
-    parameter_declaration          shift and go to state 11
-    parameter_declarations         shift and go to state 28
-
-state 20
-
-    (8) parameter_declaration -> TYPE IDENTIFIER .
-
-    COMMA           reduce using rule 8 (parameter_declaration -> TYPE IDENTIFIER .)
-    RPAREN          reduce using rule 8 (parameter_declaration -> TYPE IDENTIFIER .)
-
-
-state 21
-
-    (13) statement -> IDENTIFIER ASSIGN . expression SEMICOLON
-    (15) expression -> . IDENTIFIER
-    (16) expression -> . NUMBER
-
-    IDENTIFIER      shift and go to state 26
-    NUMBER          shift and go to state 27
-
-    expression                     shift and go to state 29
-
-state 22
-
-    (3) function_definition -> TYPE IDENTIFIER parameter_list LBRACE statement_list RBRACE .
-
-    $end            reduce using rule 3 (function_definition -> TYPE IDENTIFIER parameter_list LBRACE statement_list RBRACE .)
-
-
-state 23
-
-    (10) statement_list -> statement_list statement .
-
-    RBRACE          reduce using rule 10 (statement_list -> statement_list statement .)
-    RETURN          reduce using rule 10 (statement_list -> statement_list statement .)
-    IDENTIFIER      reduce using rule 10 (statement_list -> statement_list statement .)
-
-
-state 24
-
-    (11) statement -> RETURN expression . SEMICOLON
-
-    SEMICOLON       shift and go to state 30
-
-
-state 25
-
-    (12) statement -> RETURN SEMICOLON .
-
-    RBRACE          reduce using rule 12 (statement -> RETURN SEMICOLON .)
-    RETURN          reduce using rule 12 (statement -> RETURN SEMICOLON .)
-    IDENTIFIER      reduce using rule 12 (statement -> RETURN SEMICOLON .)
-
-
-state 26
-
-    (15) expression -> IDENTIFIER .
-
-    SEMICOLON       reduce using rule 15 (expression -> IDENTIFIER .)
-
-
-state 27
-
-    (16) expression -> NUMBER .
-
-    SEMICOLON       reduce using rule 16 (expression -> NUMBER .)
-
-
-state 28
-
-    (7) parameter_declarations -> parameter_declaration COMMA parameter_declarations .
-
-    RPAREN          reduce using rule 7 (parameter_declarations -> parameter_declaration COMMA parameter_declarations .)
-
-
-state 29
-
-    (13) statement -> IDENTIFIER ASSIGN expression . SEMICOLON
-
-    SEMICOLON       shift and go to state 31
-
-
-state 30
-
-    (11) statement -> RETURN expression SEMICOLON .
-
-    RBRACE          reduce using rule 11 (statement -> RETURN expression SEMICOLON .)
-    RETURN          reduce using rule 11 (statement -> RETURN expression SEMICOLON .)
-    IDENTIFIER      reduce using rule 11 (statement -> RETURN expression SEMICOLON .)
-
-
-state 31
-
-    (13) statement -> IDENTIFIER ASSIGN expression SEMICOLON .
-
-    RBRACE          reduce using rule 13 (statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    RETURN          reduce using rule 13 (statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-    IDENTIFIER      reduce using rule 13 (statement -> IDENTIFIER ASSIGN expression SEMICOLON .)
-
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for RETURN in state 8 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 8 resolved as shift
-WARNING: shift/reduce conflict for RBRACE in state 14 resolved as shift
-WARNING: shift/reduce conflict for RETURN in state 14 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 14 resolved as shift
