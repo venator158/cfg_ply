@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from lexer import tokens  # Import tokens and lexer from lexer.py
+from if_lexer import tokens  # Import tokens and lexer from lexer.py
 
 # Grammar rules
 

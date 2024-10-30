@@ -1,7 +1,7 @@
-# dtype_lexer.py
+ 
 import re
 
-# Token specifications as regular expressions
+ 
 token_specs = [
     ('TYPE', r'\b(int|float|double|char|short|long|unsigned|signed)\b'),
     ('POINTER', r'\*'),
@@ -12,7 +12,7 @@ token_specs = [
     ('FLOAT_VALUE', r'\b[0-9]+\.[0-9]+\b'),
     ('CHAR_VALUE', r"'.'"),
     ('STRING_VALUE', r'"[^"]*"'),
-    ('WHITESPACE', r'\s+'),  # Skip whitespace
+    ('WHITESPACE', r'\s+'),   
 ]
 
 token_regex = '|'.join(f'(?P<{name}>{pattern})' for name, pattern in token_specs)
@@ -23,6 +23,6 @@ def lexer(input_code):
     for match in compiled_re.finditer(input_code):
         token_type = match.lastgroup
         token_value = match.group(token_type)
-        if token_type != 'WHITESPACE':  # Skip whitespace tokens
+        if token_type != 'WHITESPACE':   
             tokens.append((token_type, token_value))
     return tokens
