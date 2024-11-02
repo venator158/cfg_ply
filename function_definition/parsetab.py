@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGN COMMA IDENTIFIER LBRACE LPAREN NUMBER RBRACE RETURN RPAREN SEMICOLON TYPEfunction_declaration : TYPE IDENTIFIER parameter_list SEMICOLONparameter_list : LPAREN parameter_declarations RPAREN\n                      | LPAREN RPARENparameter_declarations : parameter_declaration\n                              | parameter_declaration COMMA parameter_declarationsparameter_declaration : TYPE IDENTIFIER'
+_lr_signature = 'COLON COMMA DEF EQUAL IDENTIFIER LPAREN MINUS NUMBER PLUS RPAREN STRINGfunction_definition : DEF IDENTIFIER LPAREN parameter_list RPAREN COLON statement_blockparameter_list : parameters\n                      | emptyparameters : parameter\n                  | parameter COMMA parametersparameter : IDENTIFIER\n                 | IDENTIFIER EQUAL expressionexpression : IDENTIFIER\n                  | NUMBER\n                  | STRING\n                  | expression PLUS expression\n                  | expression MINUS expressionstatement_block : statement\n                       | statement statement_blockstatement : expression\n                 | IDENTIFIER EQUAL expressionempty :'
     
-_lr_action_items = {'TYPE':([0,5,12,],[2,10,10,]),'$end':([1,6,],[0,-1,]),'IDENTIFIER':([2,10,],[3,13,]),'LPAREN':([3,],[5,]),'SEMICOLON':([4,8,11,],[6,-3,-2,]),'RPAREN':([5,7,9,13,14,],[8,11,-4,-6,-5,]),'COMMA':([9,13,],[12,-6,]),}
+_lr_action_items = {'DEF':([0,],[2,]),'$end':([1,13,15,16,21,22,23,24,25,26,28,29,],[0,-8,-9,-10,-8,-1,-13,-15,-11,-12,-14,-16,]),'IDENTIFIER':([2,4,10,12,13,15,16,17,19,20,21,23,24,25,26,27,29,],[3,5,13,5,-8,-9,-10,21,13,13,-8,21,-15,-11,-12,13,-16,]),'LPAREN':([3,],[4,]),'RPAREN':([4,5,6,7,8,9,13,14,15,16,18,25,26,],[-17,-6,11,-2,-3,-4,-8,-7,-9,-10,-5,-11,-12,]),'COMMA':([5,9,13,14,15,16,25,26,],[-6,12,-8,-7,-9,-10,-11,-12,]),'EQUAL':([5,21,],[10,27,]),'NUMBER':([10,13,15,16,17,19,20,21,23,24,25,26,27,29,],[15,-8,-9,-10,15,15,15,-8,15,-15,-11,-12,15,-16,]),'STRING':([10,13,15,16,17,19,20,21,23,24,25,26,27,29,],[16,-8,-9,-10,16,16,16,-8,16,-15,-11,-12,16,-16,]),'COLON':([11,],[17,]),'PLUS':([13,14,15,16,21,24,25,26,29,],[-8,19,-9,-10,-8,19,19,19,19,]),'MINUS':([13,14,15,16,21,24,25,26,29,],[-8,20,-9,-10,-8,20,20,20,20,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'function_declaration':([0,],[1,]),'parameter_list':([3,],[4,]),'parameter_declarations':([5,12,],[7,14,]),'parameter_declaration':([5,12,],[9,9,]),}
+_lr_goto_items = {'function_definition':([0,],[1,]),'parameter_list':([4,],[6,]),'parameters':([4,12,],[7,18,]),'empty':([4,],[8,]),'parameter':([4,12,],[9,9,]),'expression':([10,17,19,20,23,27,],[14,24,25,26,24,29,]),'statement_block':([17,23,],[22,28,]),'statement':([17,23,],[23,23,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,11 +26,22 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> function_declaration","S'",1,None,None,None),
-  ('function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON','function_declaration',4,'p_function_declaration','fndef_parser.py',9),
-  ('parameter_list -> LPAREN parameter_declarations RPAREN','parameter_list',3,'p_parameter_list','fndef_parser.py',13),
-  ('parameter_list -> LPAREN RPAREN','parameter_list',2,'p_parameter_list','fndef_parser.py',14),
-  ('parameter_declarations -> parameter_declaration','parameter_declarations',1,'p_parameter_declarations','fndef_parser.py',18),
-  ('parameter_declarations -> parameter_declaration COMMA parameter_declarations','parameter_declarations',3,'p_parameter_declarations','fndef_parser.py',19),
-  ('parameter_declaration -> TYPE IDENTIFIER','parameter_declaration',2,'p_parameter_declaration','fndef_parser.py',23),
+  ("S' -> function_definition","S'",1,None,None,None),
+  ('function_definition -> DEF IDENTIFIER LPAREN parameter_list RPAREN COLON statement_block','function_definition',7,'p_function_definition','parser.py',6),
+  ('parameter_list -> parameters','parameter_list',1,'p_parameter_list','parser.py',10),
+  ('parameter_list -> empty','parameter_list',1,'p_parameter_list','parser.py',11),
+  ('parameters -> parameter','parameters',1,'p_parameters','parser.py',15),
+  ('parameters -> parameter COMMA parameters','parameters',3,'p_parameters','parser.py',16),
+  ('parameter -> IDENTIFIER','parameter',1,'p_parameter','parser.py',20),
+  ('parameter -> IDENTIFIER EQUAL expression','parameter',3,'p_parameter','parser.py',21),
+  ('expression -> IDENTIFIER','expression',1,'p_expression','parser.py',25),
+  ('expression -> NUMBER','expression',1,'p_expression','parser.py',26),
+  ('expression -> STRING','expression',1,'p_expression','parser.py',27),
+  ('expression -> expression PLUS expression','expression',3,'p_expression','parser.py',28),
+  ('expression -> expression MINUS expression','expression',3,'p_expression','parser.py',29),
+  ('statement_block -> statement','statement_block',1,'p_statement_block','parser.py',33),
+  ('statement_block -> statement statement_block','statement_block',2,'p_statement_block','parser.py',34),
+  ('statement -> expression','statement',1,'p_statement','parser.py',38),
+  ('statement -> IDENTIFIER EQUAL expression','statement',3,'p_statement','parser.py',39),
+  ('empty -> <empty>','empty',0,'p_empty','parser.py',43),
 ]
