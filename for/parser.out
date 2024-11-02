@@ -1,201 +1,422 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    PLUS
-
 Grammar
 
-Rule 0     S' -> for_loop
-Rule 1     for_loop -> FOR IDENTIFIER IN func_call COLON
-Rule 2     func_call -> IDENTIFIER LPAREN expression RPAREN
-Rule 3     func_call -> IDENTIFIER LPAREN expression COMMA expression RPAREN
-Rule 4     func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA expression RPAREN
-Rule 5     expression -> IDENTIFIER
-Rule 6     expression -> NUMBER
-Rule 7     statement -> IDENTIFIER EQUALS expression
+Rule 0     S' -> program
+Rule 1     program -> statement_list
+Rule 2     statement_list -> statement
+Rule 3     statement_list -> statement NEWLINE statement_list
+Rule 4     statement -> assignment
+Rule 5     statement -> for_loop
+Rule 6     statement -> print_statement
+Rule 7     statement -> increment
+Rule 8     statement -> decrement
+Rule 9     statement -> standalone_statement
+Rule 10    for_loop -> FOR IDENTIFIER IN func_call COLON NEWLINE statement_list
+Rule 11    func_call -> IDENTIFIER LPAREN NUMBER RPAREN
+Rule 12    func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER RPAREN
+Rule 13    func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+Rule 14    assignment -> IDENTIFIER EQUALS NUMBER
+Rule 15    print_statement -> PRINT IDENTIFIER
+Rule 16    increment -> IDENTIFIER PLUS_PLUS
+Rule 17    decrement -> IDENTIFIER MINUS_MINUS
+Rule 18    standalone_statement -> IDENTIFIER
 
 Terminals, with rules where they appear
 
-COLON                : 1
-COMMA                : 3 4 4
-EQUALS               : 7
-FOR                  : 1
-IDENTIFIER           : 1 2 3 4 5 7
-IN                   : 1
-LPAREN               : 2 3 4
-NUMBER               : 6
-PLUS                 : 
-RPAREN               : 2 3 4
+COLON                : 10
+COMMA                : 12 13 13
+EQUALS               : 14
+FOR                  : 10
+IDENTIFIER           : 10 11 12 13 14 15 16 17 18
+IN                   : 10
+LPAREN               : 11 12 13
+MINUS_MINUS          : 17
+NEWLINE              : 3 10
+NUMBER               : 11 12 12 13 13 13 14
+PLUS_PLUS            : 16
+PRINT                : 15
+RPAREN               : 11 12 13
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 2 3 3 4 4 4 7
-for_loop             : 0
-func_call            : 1
-statement            : 
+assignment           : 4
+decrement            : 8
+for_loop             : 5
+func_call            : 10
+increment            : 7
+print_statement      : 6
+program              : 0
+standalone_statement : 9
+statement            : 2 3
+statement_list       : 1 3 10
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . for_loop
-    (1) for_loop -> . FOR IDENTIFIER IN func_call COLON
+    (0) S' -> . program
+    (1) program -> . statement_list
+    (2) statement_list -> . statement
+    (3) statement_list -> . statement NEWLINE statement_list
+    (4) statement -> . assignment
+    (5) statement -> . for_loop
+    (6) statement -> . print_statement
+    (7) statement -> . increment
+    (8) statement -> . decrement
+    (9) statement -> . standalone_statement
+    (14) assignment -> . IDENTIFIER EQUALS NUMBER
+    (10) for_loop -> . FOR IDENTIFIER IN func_call COLON NEWLINE statement_list
+    (15) print_statement -> . PRINT IDENTIFIER
+    (16) increment -> . IDENTIFIER PLUS_PLUS
+    (17) decrement -> . IDENTIFIER MINUS_MINUS
+    (18) standalone_statement -> . IDENTIFIER
 
-    FOR             shift and go to state 2
+    IDENTIFIER      shift and go to state 10
+    FOR             shift and go to state 11
+    PRINT           shift and go to state 12
 
-    for_loop                       shift and go to state 1
+    program                        shift and go to state 1
+    statement_list                 shift and go to state 2
+    statement                      shift and go to state 3
+    assignment                     shift and go to state 4
+    for_loop                       shift and go to state 5
+    print_statement                shift and go to state 6
+    increment                      shift and go to state 7
+    decrement                      shift and go to state 8
+    standalone_statement           shift and go to state 9
 
 state 1
 
-    (0) S' -> for_loop .
+    (0) S' -> program .
 
 
 
 state 2
 
-    (1) for_loop -> FOR . IDENTIFIER IN func_call COLON
+    (1) program -> statement_list .
 
-    IDENTIFIER      shift and go to state 3
+    $end            reduce using rule 1 (program -> statement_list .)
 
 
 state 3
 
-    (1) for_loop -> FOR IDENTIFIER . IN func_call COLON
+    (2) statement_list -> statement .
+    (3) statement_list -> statement . NEWLINE statement_list
 
-    IN              shift and go to state 4
+  ! shift/reduce conflict for NEWLINE resolved as shift
+    $end            reduce using rule 2 (statement_list -> statement .)
+    NEWLINE         shift and go to state 13
+
+  ! NEWLINE         [ reduce using rule 2 (statement_list -> statement .) ]
 
 
 state 4
 
-    (1) for_loop -> FOR IDENTIFIER IN . func_call COLON
-    (2) func_call -> . IDENTIFIER LPAREN expression RPAREN
-    (3) func_call -> . IDENTIFIER LPAREN expression COMMA expression RPAREN
-    (4) func_call -> . IDENTIFIER LPAREN expression COMMA expression COMMA expression RPAREN
+    (4) statement -> assignment .
 
-    IDENTIFIER      shift and go to state 5
+    NEWLINE         reduce using rule 4 (statement -> assignment .)
+    $end            reduce using rule 4 (statement -> assignment .)
 
-    func_call                      shift and go to state 6
 
 state 5
 
-    (2) func_call -> IDENTIFIER . LPAREN expression RPAREN
-    (3) func_call -> IDENTIFIER . LPAREN expression COMMA expression RPAREN
-    (4) func_call -> IDENTIFIER . LPAREN expression COMMA expression COMMA expression RPAREN
+    (5) statement -> for_loop .
 
-    LPAREN          shift and go to state 7
+    NEWLINE         reduce using rule 5 (statement -> for_loop .)
+    $end            reduce using rule 5 (statement -> for_loop .)
 
 
 state 6
 
-    (1) for_loop -> FOR IDENTIFIER IN func_call . COLON
+    (6) statement -> print_statement .
 
-    COLON           shift and go to state 8
+    NEWLINE         reduce using rule 6 (statement -> print_statement .)
+    $end            reduce using rule 6 (statement -> print_statement .)
 
 
 state 7
 
-    (2) func_call -> IDENTIFIER LPAREN . expression RPAREN
-    (3) func_call -> IDENTIFIER LPAREN . expression COMMA expression RPAREN
-    (4) func_call -> IDENTIFIER LPAREN . expression COMMA expression COMMA expression RPAREN
-    (5) expression -> . IDENTIFIER
-    (6) expression -> . NUMBER
+    (7) statement -> increment .
 
-    IDENTIFIER      shift and go to state 9
-    NUMBER          shift and go to state 11
+    NEWLINE         reduce using rule 7 (statement -> increment .)
+    $end            reduce using rule 7 (statement -> increment .)
 
-    expression                     shift and go to state 10
 
 state 8
 
-    (1) for_loop -> FOR IDENTIFIER IN func_call COLON .
+    (8) statement -> decrement .
 
-    $end            reduce using rule 1 (for_loop -> FOR IDENTIFIER IN func_call COLON .)
+    NEWLINE         reduce using rule 8 (statement -> decrement .)
+    $end            reduce using rule 8 (statement -> decrement .)
 
 
 state 9
 
-    (5) expression -> IDENTIFIER .
+    (9) statement -> standalone_statement .
 
-    RPAREN          reduce using rule 5 (expression -> IDENTIFIER .)
-    COMMA           reduce using rule 5 (expression -> IDENTIFIER .)
+    NEWLINE         reduce using rule 9 (statement -> standalone_statement .)
+    $end            reduce using rule 9 (statement -> standalone_statement .)
 
 
 state 10
 
-    (2) func_call -> IDENTIFIER LPAREN expression . RPAREN
-    (3) func_call -> IDENTIFIER LPAREN expression . COMMA expression RPAREN
-    (4) func_call -> IDENTIFIER LPAREN expression . COMMA expression COMMA expression RPAREN
+    (14) assignment -> IDENTIFIER . EQUALS NUMBER
+    (16) increment -> IDENTIFIER . PLUS_PLUS
+    (17) decrement -> IDENTIFIER . MINUS_MINUS
+    (18) standalone_statement -> IDENTIFIER .
 
-    RPAREN          shift and go to state 12
-    COMMA           shift and go to state 13
+    EQUALS          shift and go to state 14
+    PLUS_PLUS       shift and go to state 15
+    MINUS_MINUS     shift and go to state 16
+    NEWLINE         reduce using rule 18 (standalone_statement -> IDENTIFIER .)
+    $end            reduce using rule 18 (standalone_statement -> IDENTIFIER .)
 
 
 state 11
 
-    (6) expression -> NUMBER .
+    (10) for_loop -> FOR . IDENTIFIER IN func_call COLON NEWLINE statement_list
 
-    RPAREN          reduce using rule 6 (expression -> NUMBER .)
-    COMMA           reduce using rule 6 (expression -> NUMBER .)
+    IDENTIFIER      shift and go to state 17
 
 
 state 12
 
-    (2) func_call -> IDENTIFIER LPAREN expression RPAREN .
+    (15) print_statement -> PRINT . IDENTIFIER
 
-    COLON           reduce using rule 2 (func_call -> IDENTIFIER LPAREN expression RPAREN .)
+    IDENTIFIER      shift and go to state 18
 
 
 state 13
 
-    (3) func_call -> IDENTIFIER LPAREN expression COMMA . expression RPAREN
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA . expression COMMA expression RPAREN
-    (5) expression -> . IDENTIFIER
-    (6) expression -> . NUMBER
+    (3) statement_list -> statement NEWLINE . statement_list
+    (2) statement_list -> . statement
+    (3) statement_list -> . statement NEWLINE statement_list
+    (4) statement -> . assignment
+    (5) statement -> . for_loop
+    (6) statement -> . print_statement
+    (7) statement -> . increment
+    (8) statement -> . decrement
+    (9) statement -> . standalone_statement
+    (14) assignment -> . IDENTIFIER EQUALS NUMBER
+    (10) for_loop -> . FOR IDENTIFIER IN func_call COLON NEWLINE statement_list
+    (15) print_statement -> . PRINT IDENTIFIER
+    (16) increment -> . IDENTIFIER PLUS_PLUS
+    (17) decrement -> . IDENTIFIER MINUS_MINUS
+    (18) standalone_statement -> . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 9
-    NUMBER          shift and go to state 11
+    IDENTIFIER      shift and go to state 10
+    FOR             shift and go to state 11
+    PRINT           shift and go to state 12
 
-    expression                     shift and go to state 14
+    statement                      shift and go to state 3
+    statement_list                 shift and go to state 19
+    assignment                     shift and go to state 4
+    for_loop                       shift and go to state 5
+    print_statement                shift and go to state 6
+    increment                      shift and go to state 7
+    decrement                      shift and go to state 8
+    standalone_statement           shift and go to state 9
 
 state 14
 
-    (3) func_call -> IDENTIFIER LPAREN expression COMMA expression . RPAREN
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA expression . COMMA expression RPAREN
+    (14) assignment -> IDENTIFIER EQUALS . NUMBER
 
-    RPAREN          shift and go to state 16
-    COMMA           shift and go to state 15
+    NUMBER          shift and go to state 20
 
 
 state 15
 
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA . expression RPAREN
-    (5) expression -> . IDENTIFIER
-    (6) expression -> . NUMBER
+    (16) increment -> IDENTIFIER PLUS_PLUS .
 
-    IDENTIFIER      shift and go to state 9
-    NUMBER          shift and go to state 11
+    NEWLINE         reduce using rule 16 (increment -> IDENTIFIER PLUS_PLUS .)
+    $end            reduce using rule 16 (increment -> IDENTIFIER PLUS_PLUS .)
 
-    expression                     shift and go to state 17
 
 state 16
 
-    (3) func_call -> IDENTIFIER LPAREN expression COMMA expression RPAREN .
+    (17) decrement -> IDENTIFIER MINUS_MINUS .
 
-    COLON           reduce using rule 3 (func_call -> IDENTIFIER LPAREN expression COMMA expression RPAREN .)
+    NEWLINE         reduce using rule 17 (decrement -> IDENTIFIER MINUS_MINUS .)
+    $end            reduce using rule 17 (decrement -> IDENTIFIER MINUS_MINUS .)
 
 
 state 17
 
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA expression . RPAREN
+    (10) for_loop -> FOR IDENTIFIER . IN func_call COLON NEWLINE statement_list
 
-    RPAREN          shift and go to state 18
+    IN              shift and go to state 21
 
 
 state 18
 
-    (4) func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA expression RPAREN .
+    (15) print_statement -> PRINT IDENTIFIER .
 
-    COLON           reduce using rule 4 (func_call -> IDENTIFIER LPAREN expression COMMA expression COMMA expression RPAREN .)
+    NEWLINE         reduce using rule 15 (print_statement -> PRINT IDENTIFIER .)
+    $end            reduce using rule 15 (print_statement -> PRINT IDENTIFIER .)
 
+
+state 19
+
+    (3) statement_list -> statement NEWLINE statement_list .
+
+    $end            reduce using rule 3 (statement_list -> statement NEWLINE statement_list .)
+    NEWLINE         reduce using rule 3 (statement_list -> statement NEWLINE statement_list .)
+
+
+state 20
+
+    (14) assignment -> IDENTIFIER EQUALS NUMBER .
+
+    NEWLINE         reduce using rule 14 (assignment -> IDENTIFIER EQUALS NUMBER .)
+    $end            reduce using rule 14 (assignment -> IDENTIFIER EQUALS NUMBER .)
+
+
+state 21
+
+    (10) for_loop -> FOR IDENTIFIER IN . func_call COLON NEWLINE statement_list
+    (11) func_call -> . IDENTIFIER LPAREN NUMBER RPAREN
+    (12) func_call -> . IDENTIFIER LPAREN NUMBER COMMA NUMBER RPAREN
+    (13) func_call -> . IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    IDENTIFIER      shift and go to state 22
+
+    func_call                      shift and go to state 23
+
+state 22
+
+    (11) func_call -> IDENTIFIER . LPAREN NUMBER RPAREN
+    (12) func_call -> IDENTIFIER . LPAREN NUMBER COMMA NUMBER RPAREN
+    (13) func_call -> IDENTIFIER . LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    LPAREN          shift and go to state 24
+
+
+state 23
+
+    (10) for_loop -> FOR IDENTIFIER IN func_call . COLON NEWLINE statement_list
+
+    COLON           shift and go to state 25
+
+
+state 24
+
+    (11) func_call -> IDENTIFIER LPAREN . NUMBER RPAREN
+    (12) func_call -> IDENTIFIER LPAREN . NUMBER COMMA NUMBER RPAREN
+    (13) func_call -> IDENTIFIER LPAREN . NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 26
+
+
+state 25
+
+    (10) for_loop -> FOR IDENTIFIER IN func_call COLON . NEWLINE statement_list
+
+    NEWLINE         shift and go to state 27
+
+
+state 26
+
+    (11) func_call -> IDENTIFIER LPAREN NUMBER . RPAREN
+    (12) func_call -> IDENTIFIER LPAREN NUMBER . COMMA NUMBER RPAREN
+    (13) func_call -> IDENTIFIER LPAREN NUMBER . COMMA NUMBER COMMA NUMBER RPAREN
+
+    RPAREN          shift and go to state 28
+    COMMA           shift and go to state 29
+
+
+state 27
+
+    (10) for_loop -> FOR IDENTIFIER IN func_call COLON NEWLINE . statement_list
+    (2) statement_list -> . statement
+    (3) statement_list -> . statement NEWLINE statement_list
+    (4) statement -> . assignment
+    (5) statement -> . for_loop
+    (6) statement -> . print_statement
+    (7) statement -> . increment
+    (8) statement -> . decrement
+    (9) statement -> . standalone_statement
+    (14) assignment -> . IDENTIFIER EQUALS NUMBER
+    (10) for_loop -> . FOR IDENTIFIER IN func_call COLON NEWLINE statement_list
+    (15) print_statement -> . PRINT IDENTIFIER
+    (16) increment -> . IDENTIFIER PLUS_PLUS
+    (17) decrement -> . IDENTIFIER MINUS_MINUS
+    (18) standalone_statement -> . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 10
+    FOR             shift and go to state 11
+    PRINT           shift and go to state 12
+
+    statement_list                 shift and go to state 30
+    statement                      shift and go to state 3
+    assignment                     shift and go to state 4
+    for_loop                       shift and go to state 5
+    print_statement                shift and go to state 6
+    increment                      shift and go to state 7
+    decrement                      shift and go to state 8
+    standalone_statement           shift and go to state 9
+
+state 28
+
+    (11) func_call -> IDENTIFIER LPAREN NUMBER RPAREN .
+
+    COLON           reduce using rule 11 (func_call -> IDENTIFIER LPAREN NUMBER RPAREN .)
+
+
+state 29
+
+    (12) func_call -> IDENTIFIER LPAREN NUMBER COMMA . NUMBER RPAREN
+    (13) func_call -> IDENTIFIER LPAREN NUMBER COMMA . NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 31
+
+
+state 30
+
+    (10) for_loop -> FOR IDENTIFIER IN func_call COLON NEWLINE statement_list .
+
+    NEWLINE         reduce using rule 10 (for_loop -> FOR IDENTIFIER IN func_call COLON NEWLINE statement_list .)
+    $end            reduce using rule 10 (for_loop -> FOR IDENTIFIER IN func_call COLON NEWLINE statement_list .)
+
+
+state 31
+
+    (12) func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER . RPAREN
+    (13) func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER . COMMA NUMBER RPAREN
+
+    RPAREN          shift and go to state 33
+    COMMA           shift and go to state 32
+
+
+state 32
+
+    (13) func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA . NUMBER RPAREN
+
+    NUMBER          shift and go to state 34
+
+
+state 33
+
+    (12) func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER RPAREN .
+
+    COLON           reduce using rule 12 (func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER RPAREN .)
+
+
+state 34
+
+    (13) func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER . RPAREN
+
+    RPAREN          shift and go to state 35
+
+
+state 35
+
+    (13) func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .
+
+    COLON           reduce using rule 13 (func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for NEWLINE in state 3 resolved as shift
