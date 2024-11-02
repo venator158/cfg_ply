@@ -3,38 +3,42 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> function_declaration
-Rule 1     function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON
-Rule 2     parameter_list -> LPAREN parameter_declarations RPAREN
-Rule 3     parameter_list -> LPAREN RPAREN
-Rule 4     parameter_declarations -> parameter_declaration
-Rule 5     parameter_declarations -> parameter_declaration COMMA parameter_declarations
-Rule 6     parameter_declaration -> TYPE IDENTIFIER
+Rule 1     function_declaration -> DEF IDENTIFIER LPAREN parameter_list RPAREN COLON
+Rule 2     parameter_list -> parameters
+Rule 3     parameter_list -> empty
+Rule 4     parameters -> parameter
+Rule 5     parameters -> parameter COMMA parameters
+Rule 6     parameter -> IDENTIFIER
+Rule 7     parameter -> IDENTIFIER EQUAL IDENTIFIER
+Rule 8     empty -> <empty>
 
 Terminals, with rules where they appear
 
+COLON                : 1
 COMMA                : 5
-IDENTIFIER           : 1 6
-LPAREN               : 2 3
-RPAREN               : 2 3
-SEMICOLON            : 1
-TYPE                 : 1 6
+DEF                  : 1
+EQUAL                : 7
+IDENTIFIER           : 1 6 7 7
+LPAREN               : 1
+RPAREN               : 1
 error                : 
 
 Nonterminals, with rules where they appear
 
+empty                : 3
 function_declaration : 0
-parameter_declaration : 4 5
-parameter_declarations : 2 5
+parameter            : 4 5
 parameter_list       : 1
+parameters           : 2 5
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . function_declaration
-    (1) function_declaration -> . TYPE IDENTIFIER parameter_list SEMICOLON
+    (1) function_declaration -> . DEF IDENTIFIER LPAREN parameter_list RPAREN COLON
 
-    TYPE            shift and go to state 2
+    DEF             shift and go to state 2
 
     function_declaration           shift and go to state 1
 
@@ -46,109 +50,122 @@ state 1
 
 state 2
 
-    (1) function_declaration -> TYPE . IDENTIFIER parameter_list SEMICOLON
+    (1) function_declaration -> DEF . IDENTIFIER LPAREN parameter_list RPAREN COLON
 
     IDENTIFIER      shift and go to state 3
 
 
 state 3
 
-    (1) function_declaration -> TYPE IDENTIFIER . parameter_list SEMICOLON
-    (2) parameter_list -> . LPAREN parameter_declarations RPAREN
-    (3) parameter_list -> . LPAREN RPAREN
+    (1) function_declaration -> DEF IDENTIFIER . LPAREN parameter_list RPAREN COLON
 
-    LPAREN          shift and go to state 5
+    LPAREN          shift and go to state 4
 
-    parameter_list                 shift and go to state 4
 
 state 4
 
-    (1) function_declaration -> TYPE IDENTIFIER parameter_list . SEMICOLON
+    (1) function_declaration -> DEF IDENTIFIER LPAREN . parameter_list RPAREN COLON
+    (2) parameter_list -> . parameters
+    (3) parameter_list -> . empty
+    (4) parameters -> . parameter
+    (5) parameters -> . parameter COMMA parameters
+    (8) empty -> .
+    (6) parameter -> . IDENTIFIER
+    (7) parameter -> . IDENTIFIER EQUAL IDENTIFIER
 
-    SEMICOLON       shift and go to state 6
+    RPAREN          reduce using rule 8 (empty -> .)
+    IDENTIFIER      shift and go to state 5
 
+    parameter_list                 shift and go to state 6
+    parameters                     shift and go to state 7
+    empty                          shift and go to state 8
+    parameter                      shift and go to state 9
 
 state 5
 
-    (2) parameter_list -> LPAREN . parameter_declarations RPAREN
-    (3) parameter_list -> LPAREN . RPAREN
-    (4) parameter_declarations -> . parameter_declaration
-    (5) parameter_declarations -> . parameter_declaration COMMA parameter_declarations
-    (6) parameter_declaration -> . TYPE IDENTIFIER
+    (6) parameter -> IDENTIFIER .
+    (7) parameter -> IDENTIFIER . EQUAL IDENTIFIER
 
-    RPAREN          shift and go to state 8
-    TYPE            shift and go to state 10
+    COMMA           reduce using rule 6 (parameter -> IDENTIFIER .)
+    RPAREN          reduce using rule 6 (parameter -> IDENTIFIER .)
+    EQUAL           shift and go to state 10
 
-    parameter_declarations         shift and go to state 7
-    parameter_declaration          shift and go to state 9
 
 state 6
 
-    (1) function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON .
-
-    $end            reduce using rule 1 (function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON .)
-
-
-state 7
-
-    (2) parameter_list -> LPAREN parameter_declarations . RPAREN
+    (1) function_declaration -> DEF IDENTIFIER LPAREN parameter_list . RPAREN COLON
 
     RPAREN          shift and go to state 11
 
 
+state 7
+
+    (2) parameter_list -> parameters .
+
+    RPAREN          reduce using rule 2 (parameter_list -> parameters .)
+
+
 state 8
 
-    (3) parameter_list -> LPAREN RPAREN .
+    (3) parameter_list -> empty .
 
-    SEMICOLON       reduce using rule 3 (parameter_list -> LPAREN RPAREN .)
+    RPAREN          reduce using rule 3 (parameter_list -> empty .)
 
 
 state 9
 
-    (4) parameter_declarations -> parameter_declaration .
-    (5) parameter_declarations -> parameter_declaration . COMMA parameter_declarations
+    (4) parameters -> parameter .
+    (5) parameters -> parameter . COMMA parameters
 
-    RPAREN          reduce using rule 4 (parameter_declarations -> parameter_declaration .)
+    RPAREN          reduce using rule 4 (parameters -> parameter .)
     COMMA           shift and go to state 12
 
 
 state 10
 
-    (6) parameter_declaration -> TYPE . IDENTIFIER
+    (7) parameter -> IDENTIFIER EQUAL . IDENTIFIER
 
     IDENTIFIER      shift and go to state 13
 
 
 state 11
 
-    (2) parameter_list -> LPAREN parameter_declarations RPAREN .
+    (1) function_declaration -> DEF IDENTIFIER LPAREN parameter_list RPAREN . COLON
 
-    SEMICOLON       reduce using rule 2 (parameter_list -> LPAREN parameter_declarations RPAREN .)
+    COLON           shift and go to state 14
 
 
 state 12
 
-    (5) parameter_declarations -> parameter_declaration COMMA . parameter_declarations
-    (4) parameter_declarations -> . parameter_declaration
-    (5) parameter_declarations -> . parameter_declaration COMMA parameter_declarations
-    (6) parameter_declaration -> . TYPE IDENTIFIER
+    (5) parameters -> parameter COMMA . parameters
+    (4) parameters -> . parameter
+    (5) parameters -> . parameter COMMA parameters
+    (6) parameter -> . IDENTIFIER
+    (7) parameter -> . IDENTIFIER EQUAL IDENTIFIER
 
-    TYPE            shift and go to state 10
+    IDENTIFIER      shift and go to state 5
 
-    parameter_declaration          shift and go to state 9
-    parameter_declarations         shift and go to state 14
+    parameter                      shift and go to state 9
+    parameters                     shift and go to state 15
 
 state 13
 
-    (6) parameter_declaration -> TYPE IDENTIFIER .
+    (7) parameter -> IDENTIFIER EQUAL IDENTIFIER .
 
-    COMMA           reduce using rule 6 (parameter_declaration -> TYPE IDENTIFIER .)
-    RPAREN          reduce using rule 6 (parameter_declaration -> TYPE IDENTIFIER .)
+    COMMA           reduce using rule 7 (parameter -> IDENTIFIER EQUAL IDENTIFIER .)
+    RPAREN          reduce using rule 7 (parameter -> IDENTIFIER EQUAL IDENTIFIER .)
 
 
 state 14
 
-    (5) parameter_declarations -> parameter_declaration COMMA parameter_declarations .
+    (1) function_declaration -> DEF IDENTIFIER LPAREN parameter_list RPAREN COLON .
 
-    RPAREN          reduce using rule 5 (parameter_declarations -> parameter_declaration COMMA parameter_declarations .)
+    $end            reduce using rule 1 (function_declaration -> DEF IDENTIFIER LPAREN parameter_list RPAREN COLON .)
+
+
+state 15
+
+    (5) parameters -> parameter COMMA parameters .
+
+    RPAREN          reduce using rule 5 (parameters -> parameter COMMA parameters .)
 
