@@ -1,5 +1,6 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
+<<<<<<< HEAD
 Grammar
 
 Rule 0     S' -> program
@@ -37,10 +38,44 @@ NUMBER               : 11 12 12 13 13 13 14
 PLUS_PLUS            : 16
 PRINT                : 15
 RPAREN               : 11 12 13
+=======
+Unused terminals:
+
+    COLON
+    EQUALS
+    FOR
+    IN
+    NUMBER
+    PLUS
+
+Grammar
+
+Rule 0     S' -> function_declaration
+Rule 1     function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON
+Rule 2     parameter_list -> LPAREN parameter_declarations RPAREN
+Rule 3     parameter_list -> LPAREN RPAREN
+Rule 4     parameter_declarations -> parameter_declaration
+Rule 5     parameter_declarations -> parameter_declaration COMMA parameter_declarations
+Rule 6     parameter_declaration -> TYPE IDENTIFIER
+
+Terminals, with rules where they appear
+
+COLON                : 
+COMMA                : 5
+EQUALS               : 
+FOR                  : 
+IDENTIFIER           : 1 6
+IN                   : 
+LPAREN               : 2 3
+NUMBER               : 
+PLUS                 : 
+RPAREN               : 2 3
+>>>>>>> 32f349045a85256cfb28c207c7f7acdf3e2d8ed1
 error                : 
 
 Nonterminals, with rules where they appear
 
+<<<<<<< HEAD
 assignment           : 4
 decrement            : 8
 for_loop             : 5
@@ -255,6 +290,14 @@ state 18
 
     NEWLINE         reduce using rule 15 (print_statement -> PRINT IDENTIFIER .)
     $end            reduce using rule 15 (print_statement -> PRINT IDENTIFIER .)
+=======
+SEMICOLON            : 1
+TYPE                 : 1 6
+function_declaration : 0
+parameter_declaration : 4 5
+parameter_declarations : 2 5
+parameter_list       : 1
+>>>>>>> 32f349045a85256cfb28c207c7f7acdf3e2d8ed1
 
 
 state 19
