@@ -46,6 +46,15 @@ def t_newline(t):
 def t_error(t):
     print(f"Illegal character '{t.value[0]}' at line {t.lexer.lineno}")
     t.lexer.skip(1)
+def tokenize_input(input_string):
+    lexer.input(input_string)
+    tokens_list = []
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        tokens_list.append(tok)
+    return tokens_list 
 
 # Build the lexer
 lexer = lex.lex()

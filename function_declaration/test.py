@@ -1,4 +1,5 @@
 from parser import parser
+from lexer import *
 
 # Example function declarations
 test_code = [
@@ -13,4 +14,9 @@ test_code = [
 for code in test_code:
     print(f"Testing: {code}")
     parser.parse(code)
+    print("\n--- TOKENIZING ---")
+    tokens = tokenize_input(code)
+    for tok in tokens:
+        print(f"Token(type={tok.type}, value={tok.value})")
+    print("\n--- VALIDITY CHECK ---")
     print()
