@@ -1,167 +1,428 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    ASSIGN
-    LBRACE
-    NUMBER
-    RBRACE
-    RETURN
-
 Grammar
 
-Rule 0     S' -> function_declaration
-Rule 1     function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON
-Rule 2     parameter_list -> LPAREN parameter_declarations RPAREN
-Rule 3     parameter_list -> LPAREN RPAREN
-Rule 4     parameter_declarations -> parameter_declaration
-Rule 5     parameter_declarations -> parameter_declaration COMMA parameter_declarations
-Rule 6     parameter_declaration -> TYPE IDENTIFIER
+Rule 0     S' -> function_definition
+Rule 1     function_definition -> DEF IDENTIFIER LPAREN parameter_list RPAREN COLON statement_block
+Rule 2     parameter_list -> parameters
+Rule 3     parameter_list -> empty
+Rule 4     parameters -> parameter
+Rule 5     parameters -> parameter COMMA parameters
+Rule 6     parameter -> IDENTIFIER
+Rule 7     parameter -> IDENTIFIER EQUAL expression
+Rule 8     expression -> IDENTIFIER
+Rule 9     expression -> NUMBER
+Rule 10    expression -> STRING
+Rule 11    expression -> expression PLUS expression
+Rule 12    expression -> expression MINUS expression
+Rule 13    statement_block -> statement
+Rule 14    statement_block -> statement statement_block
+Rule 15    statement -> expression
+Rule 16    statement -> IDENTIFIER EQUAL expression
+Rule 17    empty -> <empty>
 
 Terminals, with rules where they appear
 
-ASSIGN               : 
+COLON                : 1
 COMMA                : 5
-IDENTIFIER           : 1 6
-LBRACE               : 
-LPAREN               : 2 3
-NUMBER               : 
-RBRACE               : 
-RETURN               : 
-RPAREN               : 2 3
-SEMICOLON            : 1
-TYPE                 : 1 6
+DEF                  : 1
+EQUAL                : 7 16
+IDENTIFIER           : 1 6 7 8 16
+LPAREN               : 1
+MINUS                : 12
+NUMBER               : 9
+PLUS                 : 11
+RPAREN               : 1
+STRING               : 10
 error                : 
 
 Nonterminals, with rules where they appear
 
-function_declaration : 0
-parameter_declaration : 4 5
-parameter_declarations : 2 5
+empty                : 3
+expression           : 7 11 11 12 12 15 16
+function_definition  : 0
+parameter            : 4 5
 parameter_list       : 1
+parameters           : 2 5
+statement            : 13 14
+statement_block      : 1 14
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . function_declaration
-    (1) function_declaration -> . TYPE IDENTIFIER parameter_list SEMICOLON
+    (0) S' -> . function_definition
+    (1) function_definition -> . DEF IDENTIFIER LPAREN parameter_list RPAREN COLON statement_block
 
-    TYPE            shift and go to state 2
+    DEF             shift and go to state 2
 
-    function_declaration           shift and go to state 1
+    function_definition            shift and go to state 1
 
 state 1
 
-    (0) S' -> function_declaration .
+    (0) S' -> function_definition .
 
 
 
 state 2
 
-    (1) function_declaration -> TYPE . IDENTIFIER parameter_list SEMICOLON
+    (1) function_definition -> DEF . IDENTIFIER LPAREN parameter_list RPAREN COLON statement_block
 
     IDENTIFIER      shift and go to state 3
 
 
 state 3
 
-    (1) function_declaration -> TYPE IDENTIFIER . parameter_list SEMICOLON
-    (2) parameter_list -> . LPAREN parameter_declarations RPAREN
-    (3) parameter_list -> . LPAREN RPAREN
+    (1) function_definition -> DEF IDENTIFIER . LPAREN parameter_list RPAREN COLON statement_block
 
-    LPAREN          shift and go to state 5
+    LPAREN          shift and go to state 4
 
-    parameter_list                 shift and go to state 4
 
 state 4
 
-    (1) function_declaration -> TYPE IDENTIFIER parameter_list . SEMICOLON
+    (1) function_definition -> DEF IDENTIFIER LPAREN . parameter_list RPAREN COLON statement_block
+    (2) parameter_list -> . parameters
+    (3) parameter_list -> . empty
+    (4) parameters -> . parameter
+    (5) parameters -> . parameter COMMA parameters
+    (17) empty -> .
+    (6) parameter -> . IDENTIFIER
+    (7) parameter -> . IDENTIFIER EQUAL expression
 
-    SEMICOLON       shift and go to state 6
+    RPAREN          reduce using rule 17 (empty -> .)
+    IDENTIFIER      shift and go to state 5
 
+    parameter_list                 shift and go to state 6
+    parameters                     shift and go to state 7
+    empty                          shift and go to state 8
+    parameter                      shift and go to state 9
 
 state 5
 
-    (2) parameter_list -> LPAREN . parameter_declarations RPAREN
-    (3) parameter_list -> LPAREN . RPAREN
-    (4) parameter_declarations -> . parameter_declaration
-    (5) parameter_declarations -> . parameter_declaration COMMA parameter_declarations
-    (6) parameter_declaration -> . TYPE IDENTIFIER
+    (6) parameter -> IDENTIFIER .
+    (7) parameter -> IDENTIFIER . EQUAL expression
 
-    RPAREN          shift and go to state 8
-    TYPE            shift and go to state 10
+    COMMA           reduce using rule 6 (parameter -> IDENTIFIER .)
+    RPAREN          reduce using rule 6 (parameter -> IDENTIFIER .)
+    EQUAL           shift and go to state 10
 
-    parameter_declarations         shift and go to state 7
-    parameter_declaration          shift and go to state 9
 
 state 6
 
-    (1) function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON .
-
-    $end            reduce using rule 1 (function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON .)
-
-
-state 7
-
-    (2) parameter_list -> LPAREN parameter_declarations . RPAREN
+    (1) function_definition -> DEF IDENTIFIER LPAREN parameter_list . RPAREN COLON statement_block
 
     RPAREN          shift and go to state 11
 
 
+state 7
+
+    (2) parameter_list -> parameters .
+
+    RPAREN          reduce using rule 2 (parameter_list -> parameters .)
+
+
 state 8
 
-    (3) parameter_list -> LPAREN RPAREN .
+    (3) parameter_list -> empty .
 
-    SEMICOLON       reduce using rule 3 (parameter_list -> LPAREN RPAREN .)
+    RPAREN          reduce using rule 3 (parameter_list -> empty .)
 
 
 state 9
 
-    (4) parameter_declarations -> parameter_declaration .
-    (5) parameter_declarations -> parameter_declaration . COMMA parameter_declarations
+    (4) parameters -> parameter .
+    (5) parameters -> parameter . COMMA parameters
 
-    RPAREN          reduce using rule 4 (parameter_declarations -> parameter_declaration .)
+    RPAREN          reduce using rule 4 (parameters -> parameter .)
     COMMA           shift and go to state 12
 
 
 state 10
 
-    (6) parameter_declaration -> TYPE . IDENTIFIER
+    (7) parameter -> IDENTIFIER EQUAL . expression
+    (8) expression -> . IDENTIFIER
+    (9) expression -> . NUMBER
+    (10) expression -> . STRING
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
 
     IDENTIFIER      shift and go to state 13
+    NUMBER          shift and go to state 15
+    STRING          shift and go to state 16
 
+    expression                     shift and go to state 14
 
 state 11
 
-    (2) parameter_list -> LPAREN parameter_declarations RPAREN .
+    (1) function_definition -> DEF IDENTIFIER LPAREN parameter_list RPAREN . COLON statement_block
 
-    SEMICOLON       reduce using rule 2 (parameter_list -> LPAREN parameter_declarations RPAREN .)
+    COLON           shift and go to state 17
 
 
 state 12
 
-    (5) parameter_declarations -> parameter_declaration COMMA . parameter_declarations
-    (4) parameter_declarations -> . parameter_declaration
-    (5) parameter_declarations -> . parameter_declaration COMMA parameter_declarations
-    (6) parameter_declaration -> . TYPE IDENTIFIER
+    (5) parameters -> parameter COMMA . parameters
+    (4) parameters -> . parameter
+    (5) parameters -> . parameter COMMA parameters
+    (6) parameter -> . IDENTIFIER
+    (7) parameter -> . IDENTIFIER EQUAL expression
 
-    TYPE            shift and go to state 10
+    IDENTIFIER      shift and go to state 5
 
-    parameter_declaration          shift and go to state 9
-    parameter_declarations         shift and go to state 14
+    parameter                      shift and go to state 9
+    parameters                     shift and go to state 18
 
 state 13
 
-    (6) parameter_declaration -> TYPE IDENTIFIER .
+    (8) expression -> IDENTIFIER .
 
-    COMMA           reduce using rule 6 (parameter_declaration -> TYPE IDENTIFIER .)
-    RPAREN          reduce using rule 6 (parameter_declaration -> TYPE IDENTIFIER .)
+    PLUS            reduce using rule 8 (expression -> IDENTIFIER .)
+    MINUS           reduce using rule 8 (expression -> IDENTIFIER .)
+    COMMA           reduce using rule 8 (expression -> IDENTIFIER .)
+    RPAREN          reduce using rule 8 (expression -> IDENTIFIER .)
+    IDENTIFIER      reduce using rule 8 (expression -> IDENTIFIER .)
+    NUMBER          reduce using rule 8 (expression -> IDENTIFIER .)
+    STRING          reduce using rule 8 (expression -> IDENTIFIER .)
+    $end            reduce using rule 8 (expression -> IDENTIFIER .)
 
 
 state 14
 
-    (5) parameter_declarations -> parameter_declaration COMMA parameter_declarations .
+    (7) parameter -> IDENTIFIER EQUAL expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
 
-    RPAREN          reduce using rule 5 (parameter_declarations -> parameter_declaration COMMA parameter_declarations .)
+    COMMA           reduce using rule 7 (parameter -> IDENTIFIER EQUAL expression .)
+    RPAREN          reduce using rule 7 (parameter -> IDENTIFIER EQUAL expression .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
 
+
+state 15
+
+    (9) expression -> NUMBER .
+
+    PLUS            reduce using rule 9 (expression -> NUMBER .)
+    MINUS           reduce using rule 9 (expression -> NUMBER .)
+    COMMA           reduce using rule 9 (expression -> NUMBER .)
+    RPAREN          reduce using rule 9 (expression -> NUMBER .)
+    IDENTIFIER      reduce using rule 9 (expression -> NUMBER .)
+    NUMBER          reduce using rule 9 (expression -> NUMBER .)
+    STRING          reduce using rule 9 (expression -> NUMBER .)
+    $end            reduce using rule 9 (expression -> NUMBER .)
+
+
+state 16
+
+    (10) expression -> STRING .
+
+    PLUS            reduce using rule 10 (expression -> STRING .)
+    MINUS           reduce using rule 10 (expression -> STRING .)
+    COMMA           reduce using rule 10 (expression -> STRING .)
+    RPAREN          reduce using rule 10 (expression -> STRING .)
+    IDENTIFIER      reduce using rule 10 (expression -> STRING .)
+    NUMBER          reduce using rule 10 (expression -> STRING .)
+    STRING          reduce using rule 10 (expression -> STRING .)
+    $end            reduce using rule 10 (expression -> STRING .)
+
+
+state 17
+
+    (1) function_definition -> DEF IDENTIFIER LPAREN parameter_list RPAREN COLON . statement_block
+    (13) statement_block -> . statement
+    (14) statement_block -> . statement statement_block
+    (15) statement -> . expression
+    (16) statement -> . IDENTIFIER EQUAL expression
+    (8) expression -> . IDENTIFIER
+    (9) expression -> . NUMBER
+    (10) expression -> . STRING
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+
+    IDENTIFIER      shift and go to state 21
+    NUMBER          shift and go to state 15
+    STRING          shift and go to state 16
+
+    statement_block                shift and go to state 22
+    statement                      shift and go to state 23
+    expression                     shift and go to state 24
+
+state 18
+
+    (5) parameters -> parameter COMMA parameters .
+
+    RPAREN          reduce using rule 5 (parameters -> parameter COMMA parameters .)
+
+
+state 19
+
+    (11) expression -> expression PLUS . expression
+    (8) expression -> . IDENTIFIER
+    (9) expression -> . NUMBER
+    (10) expression -> . STRING
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+
+    IDENTIFIER      shift and go to state 13
+    NUMBER          shift and go to state 15
+    STRING          shift and go to state 16
+
+    expression                     shift and go to state 25
+
+state 20
+
+    (12) expression -> expression MINUS . expression
+    (8) expression -> . IDENTIFIER
+    (9) expression -> . NUMBER
+    (10) expression -> . STRING
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+
+    IDENTIFIER      shift and go to state 13
+    NUMBER          shift and go to state 15
+    STRING          shift and go to state 16
+
+    expression                     shift and go to state 26
+
+state 21
+
+    (16) statement -> IDENTIFIER . EQUAL expression
+    (8) expression -> IDENTIFIER .
+
+    EQUAL           shift and go to state 27
+    PLUS            reduce using rule 8 (expression -> IDENTIFIER .)
+    MINUS           reduce using rule 8 (expression -> IDENTIFIER .)
+    IDENTIFIER      reduce using rule 8 (expression -> IDENTIFIER .)
+    NUMBER          reduce using rule 8 (expression -> IDENTIFIER .)
+    STRING          reduce using rule 8 (expression -> IDENTIFIER .)
+    $end            reduce using rule 8 (expression -> IDENTIFIER .)
+
+
+state 22
+
+    (1) function_definition -> DEF IDENTIFIER LPAREN parameter_list RPAREN COLON statement_block .
+
+    $end            reduce using rule 1 (function_definition -> DEF IDENTIFIER LPAREN parameter_list RPAREN COLON statement_block .)
+
+
+state 23
+
+    (13) statement_block -> statement .
+    (14) statement_block -> statement . statement_block
+    (13) statement_block -> . statement
+    (14) statement_block -> . statement statement_block
+    (15) statement -> . expression
+    (16) statement -> . IDENTIFIER EQUAL expression
+    (8) expression -> . IDENTIFIER
+    (9) expression -> . NUMBER
+    (10) expression -> . STRING
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+
+    $end            reduce using rule 13 (statement_block -> statement .)
+    IDENTIFIER      shift and go to state 21
+    NUMBER          shift and go to state 15
+    STRING          shift and go to state 16
+
+    statement                      shift and go to state 23
+    statement_block                shift and go to state 28
+    expression                     shift and go to state 24
+
+state 24
+
+    (15) statement -> expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+
+    IDENTIFIER      reduce using rule 15 (statement -> expression .)
+    NUMBER          reduce using rule 15 (statement -> expression .)
+    STRING          reduce using rule 15 (statement -> expression .)
+    $end            reduce using rule 15 (statement -> expression .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+
+
+state 25
+
+    (11) expression -> expression PLUS expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    COMMA           reduce using rule 11 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 11 (expression -> expression PLUS expression .)
+    IDENTIFIER      reduce using rule 11 (expression -> expression PLUS expression .)
+    NUMBER          reduce using rule 11 (expression -> expression PLUS expression .)
+    STRING          reduce using rule 11 (expression -> expression PLUS expression .)
+    $end            reduce using rule 11 (expression -> expression PLUS expression .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+
+  ! PLUS            [ reduce using rule 11 (expression -> expression PLUS expression .) ]
+  ! MINUS           [ reduce using rule 11 (expression -> expression PLUS expression .) ]
+
+
+state 26
+
+    (12) expression -> expression MINUS expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    COMMA           reduce using rule 12 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 12 (expression -> expression MINUS expression .)
+    IDENTIFIER      reduce using rule 12 (expression -> expression MINUS expression .)
+    NUMBER          reduce using rule 12 (expression -> expression MINUS expression .)
+    STRING          reduce using rule 12 (expression -> expression MINUS expression .)
+    $end            reduce using rule 12 (expression -> expression MINUS expression .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+
+  ! PLUS            [ reduce using rule 12 (expression -> expression MINUS expression .) ]
+  ! MINUS           [ reduce using rule 12 (expression -> expression MINUS expression .) ]
+
+
+state 27
+
+    (16) statement -> IDENTIFIER EQUAL . expression
+    (8) expression -> . IDENTIFIER
+    (9) expression -> . NUMBER
+    (10) expression -> . STRING
+    (11) expression -> . expression PLUS expression
+    (12) expression -> . expression MINUS expression
+
+    IDENTIFIER      shift and go to state 13
+    NUMBER          shift and go to state 15
+    STRING          shift and go to state 16
+
+    expression                     shift and go to state 29
+
+state 28
+
+    (14) statement_block -> statement statement_block .
+
+    $end            reduce using rule 14 (statement_block -> statement statement_block .)
+
+
+state 29
+
+    (16) statement -> IDENTIFIER EQUAL expression .
+    (11) expression -> expression . PLUS expression
+    (12) expression -> expression . MINUS expression
+
+    IDENTIFIER      reduce using rule 16 (statement -> IDENTIFIER EQUAL expression .)
+    NUMBER          reduce using rule 16 (statement -> IDENTIFIER EQUAL expression .)
+    STRING          reduce using rule 16 (statement -> IDENTIFIER EQUAL expression .)
+    $end            reduce using rule 16 (statement -> IDENTIFIER EQUAL expression .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 25 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 25 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 26 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 26 resolved as shift

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COMMA IDENTIFIER LPAREN RPAREN SEMICOLON TYPEfunction_declaration : TYPE IDENTIFIER parameter_list SEMICOLONparameter_list : LPAREN parameter_declarations RPAREN\n                      | LPAREN RPARENparameter_declarations : parameter_declaration\n                              | parameter_declaration COMMA parameter_declarationsparameter_declaration : TYPE IDENTIFIER'
+_lr_signature = 'COLON COMMA DEF EQUAL IDENTIFIER LPAREN RPARENfunction_declaration : DEF IDENTIFIER LPAREN parameter_list RPAREN COLONparameter_list : parameters\n                      | emptyparameters : parameter\n                  | parameter COMMA parametersparameter : IDENTIFIER\n                 | IDENTIFIER EQUAL IDENTIFIERempty :'
     
-_lr_action_items = {'TYPE':([0,5,12,],[2,10,10,]),'$end':([1,6,],[0,-1,]),'IDENTIFIER':([2,10,],[3,13,]),'LPAREN':([3,],[5,]),'SEMICOLON':([4,8,11,],[6,-3,-2,]),'RPAREN':([5,7,9,13,14,],[8,11,-4,-6,-5,]),'COMMA':([9,13,],[12,-6,]),}
+_lr_action_items = {'DEF':([0,],[2,]),'$end':([1,14,],[0,-1,]),'IDENTIFIER':([2,4,10,12,],[3,5,13,5,]),'LPAREN':([3,],[4,]),'RPAREN':([4,5,6,7,8,9,13,15,],[-8,-6,11,-2,-3,-4,-7,-5,]),'COMMA':([5,9,13,],[-6,12,-7,]),'EQUAL':([5,],[10,]),'COLON':([11,],[14,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'function_declaration':([0,],[1,]),'parameter_list':([3,],[4,]),'parameter_declarations':([5,12,],[7,14,]),'parameter_declaration':([5,12,],[9,9,]),}
+_lr_goto_items = {'function_declaration':([0,],[1,]),'parameter_list':([4,],[6,]),'parameters':([4,12,],[7,15,]),'empty':([4,],[8,]),'parameter':([4,12,],[9,9,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,10 +27,12 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> function_declaration","S'",1,None,None,None),
-  ('function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON','function_declaration',4,'p_function_declaration','fndec_parser.py',8),
-  ('parameter_list -> LPAREN parameter_declarations RPAREN','parameter_list',3,'p_parameter_list','fndec_parser.py',12),
-  ('parameter_list -> LPAREN RPAREN','parameter_list',2,'p_parameter_list','fndec_parser.py',13),
-  ('parameter_declarations -> parameter_declaration','parameter_declarations',1,'p_parameter_declarations','fndec_parser.py',20),
-  ('parameter_declarations -> parameter_declaration COMMA parameter_declarations','parameter_declarations',3,'p_parameter_declarations','fndec_parser.py',21),
-  ('parameter_declaration -> TYPE IDENTIFIER','parameter_declaration',2,'p_parameter_declaration','fndec_parser.py',28),
+  ('function_declaration -> DEF IDENTIFIER LPAREN parameter_list RPAREN COLON','function_declaration',6,'p_function_declaration','parser.py',6),
+  ('parameter_list -> parameters','parameter_list',1,'p_parameter_list','parser.py',10),
+  ('parameter_list -> empty','parameter_list',1,'p_parameter_list','parser.py',11),
+  ('parameters -> parameter','parameters',1,'p_parameters','parser.py',15),
+  ('parameters -> parameter COMMA parameters','parameters',3,'p_parameters','parser.py',16),
+  ('parameter -> IDENTIFIER','parameter',1,'p_parameter','parser.py',20),
+  ('parameter -> IDENTIFIER EQUAL IDENTIFIER','parameter',3,'p_parameter','parser.py',21),
+  ('empty -> <empty>','empty',0,'p_empty','parser.py',25),
 ]
