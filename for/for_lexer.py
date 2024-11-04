@@ -40,3 +40,20 @@ def t_error(t):
     t.lexer.skip(1)
 
 lexer = lex.lex()
+
+input_lines = []
+while True:
+    line = input()
+    if line.strip() == "":
+        break
+    input_lines.append(line)
+input_code = "\n".join(input_lines)
+
+lexer.input(input_code)
+
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok: 
+        break      # No more input
+    print(tok)
