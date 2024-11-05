@@ -52,3 +52,35 @@ def p_error(p):
 
 # Build the parser
 parser = yacc.yacc()
+
+
+'''
+### Context-Free Grammar (CFG) in Specified Format
+
+S → function_definition
+
+function_definition → DEF IDENTIFIER LPAREN parameter_list RPAREN COLON statement_block
+
+parameter_list → parameters
+parameter_list → empty
+
+parameters → parameter
+parameters → parameter COMMA parameters
+
+parameter → IDENTIFIER
+parameter → IDENTIFIER EQUAL expression
+
+expression → IDENTIFIER
+expression → NUMBER
+expression → STRING
+expression → expression PLUS expression
+expression → expression MINUS expression
+
+statement_block → statement
+statement_block → statement statement_block
+
+statement → expression
+statement → IDENTIFIER EQUAL expression
+
+empty →
+'''

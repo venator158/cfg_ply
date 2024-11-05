@@ -114,3 +114,52 @@ def process_code():
 if __name__ == "__main__":
     while True:
         process_code()
+
+'''
+S → program
+
+program → statement_list
+
+statement_list → statement
+statement_list → statement NEWLINE statement_list
+
+statement → assignment
+statement → print_statement
+statement → increment
+statement → decrement
+statement → standalone_statement
+statement → if_statement
+statement → elif_block
+statement → else_block
+
+if_statement → IF expression COLON NEWLINE statement_list
+if_statement → IF expression COLON NEWLINE statement_list NEWLINE if_statement
+if_statement → IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
+if_statement → IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
+if_statement → IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
+
+elif_block → ELIF expression COLON NEWLINE statement_list
+elif_block → ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
+
+else_block → ELSE COLON NEWLINE statement_list
+
+expression → IDENTIFIER
+expression → NUMBER
+expression → IDENTIFIER EQUALS_EQUALS NUMBER
+expression → IDENTIFIER GREATER NUMBER
+expression → IDENTIFIER LESSER NUMBER
+expression → IDENTIFIER GREATER_EQUALS NUMBER
+expression → IDENTIFIER LESSER_EQUALS NUMBER
+
+assignment → IDENTIFIER EQUALS NUMBER
+
+print_statement → PRINT IDENTIFIER
+
+increment → IDENTIFIER PLUS_PLUS
+
+decrement → IDENTIFIER MINUS_MINUS
+
+standalone_statement → IDENTIFIER
+
+empty →
+'''
