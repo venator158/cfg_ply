@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from for_lexer import tokens
+from for_lexer import tokens, tokenize
 
 def p_program(p):
     '''program : statement_list'''
@@ -17,7 +17,7 @@ def p_statement(p):
                  | increment
                  | decrement
                  | standalone_statement'''
-    pass
+    pass    
 
 def p_for_loop(p):
     '''for_loop : FOR IDENTIFIER IN func_call COLON NEWLINE statement_list'''
@@ -78,6 +78,9 @@ def process_code():
     input_code = "\n".join(input_lines)
 
     print("\nParsing result:")
+    tokens = tokenize(input_code)
+    for token in tokens:
+        print(token)
     try:
         parser.parse(input_code)
     except SyntaxError as e:

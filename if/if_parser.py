@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from if_lexer import tokens
+from if_lexer import tokens,tokenize
 
 def p_program(p):
     '''program : statement_list'''
@@ -89,7 +89,7 @@ def p_standalone_statement(p):
 
 def p_error(p):
     if p:
-        print(f"Syntax error at '{p.value}'")
+        print(f"Syntax error")
     else:
         print("Syntax error at EOF")
 
@@ -106,6 +106,9 @@ def process_code():
     input_code = "\n".join(input_lines)
     
     print("\nParsing result:")
+    tokens = tokenize(input_code)
+    for token in tokens:
+        print(token)
     try:
         parser.parse(input_code)
     except SyntaxError as e:
