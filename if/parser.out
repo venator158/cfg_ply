@@ -1,6 +1,5 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-<<<<<<< HEAD
 Grammar
 
 Rule 0     S' -> program
@@ -8,109 +7,57 @@ Rule 1     program -> statement_list
 Rule 2     statement_list -> statement
 Rule 3     statement_list -> statement NEWLINE statement_list
 Rule 4     statement -> assignment
-Rule 5     statement -> print_statement
-Rule 6     statement -> increment
-Rule 7     statement -> decrement
-Rule 8     statement -> standalone_statement
-Rule 9     statement -> if_statement
-Rule 10    statement -> elif_block
-Rule 11    statement -> else_block
-Rule 12    if_statement -> IF expression COLON NEWLINE statement_list
-Rule 13    if_statement -> IF expression COLON NEWLINE statement_list NEWLINE if_statement
-Rule 14    if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-Rule 15    if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-Rule 16    if_statement -> IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-Rule 17    elif_block -> ELIF expression COLON NEWLINE statement_list
-Rule 18    elif_block -> ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
-Rule 19    else_block -> ELSE COLON NEWLINE statement_list
-Rule 20    expression -> IDENTIFIER
-Rule 21    expression -> NUMBER
-Rule 22    expression -> IDENTIFIER EQUALS_EQUALS NUMBER
-Rule 23    expression -> IDENTIFIER GREATER NUMBER
-Rule 24    expression -> IDENTIFIER LESSER NUMBER
-Rule 25    expression -> IDENTIFIER GREATER_EQUALS NUMBER
-Rule 26    expression -> IDENTIFIER LESSER_EQUALS NUMBER
-Rule 27    assignment -> IDENTIFIER EQUALS NUMBER
-Rule 28    print_statement -> PRINT IDENTIFIER
-Rule 29    increment -> IDENTIFIER PLUS_PLUS
-Rule 30    decrement -> IDENTIFIER MINUS_MINUS
-Rule 31    standalone_statement -> IDENTIFIER
+Rule 5     statement -> if_statement
+Rule 6     if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT
+Rule 7     if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+Rule 8     if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block
+Rule 9     if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block
+Rule 10    elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT
+Rule 11    elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+Rule 12    else_block -> ELSE COLON NEWLINE INDENT ignored_block DEDENT
+Rule 13    ignored_block -> statement_list
+Rule 14    ignored_block -> empty
+Rule 15    expression -> IDENTIFIER
+Rule 16    expression -> NUMBER
+Rule 17    expression -> IDENTIFIER EQUALS_EQUALS NUMBER
+Rule 18    expression -> IDENTIFIER GREATER NUMBER
+Rule 19    expression -> IDENTIFIER LESSER NUMBER
+Rule 20    expression -> IDENTIFIER GREATER_EQUALS NUMBER
+Rule 21    expression -> IDENTIFIER LESSER_EQUALS NUMBER
+Rule 22    assignment -> IDENTIFIER EQUALS NUMBER
+Rule 23    empty -> <empty>
 
 Terminals, with rules where they appear
 
-COLON                : 12 13 14 14 15 15 16 17 18 19
-ELIF                 : 14 17 18
-ELSE                 : 15 19
-EQUALS               : 27
-EQUALS_EQUALS        : 22
-GREATER              : 23
-GREATER_EQUALS       : 25
-IDENTIFIER           : 20 22 23 24 25 26 27 28 29 30 31
-IF                   : 12 13 14 15 16
-LESSER               : 24
-LESSER_EQUALS        : 26
-MINUS_MINUS          : 30
-NEWLINE              : 3 12 13 13 14 14 14 15 15 15 16 16 16 17 18 18 19
-NUMBER               : 21 22 23 24 25 26 27
-PLUS_PLUS            : 29
-PRINT                : 28
-=======
-Unused terminals:
-
-    COLON
-    ELIF
-    ELSE
-    EQUALS
-    GREATER
-    GREATER_EQUALS
-    IF
-    LESSER
-    LESSER_EQUALS
-    NEWLINE
-    NUMBER
-
-Grammar
-
-Rule 0     S' -> function_declaration
-Rule 1     function_declaration -> TYPE IDENTIFIER parameter_list SEMICOLON
-Rule 2     parameter_list -> LPAREN parameter_declarations RPAREN
-Rule 3     parameter_list -> LPAREN RPAREN
-Rule 4     parameter_declarations -> parameter_declaration
-Rule 5     parameter_declarations -> parameter_declaration COMMA parameter_declarations
-Rule 6     parameter_declaration -> TYPE IDENTIFIER
-
-Terminals, with rules where they appear
-
-COLON                : 
-ELIF                 : 
-ELSE                 : 
-EQUALS               : 
-GREATER              : 
-GREATER_EQUALS       : 
-IDENTIFIER           : 1 6
-IF                   : 
-LESSER               : 
-LESSER_EQUALS        : 
-NEWLINE              : 
-NUMBER               : 
->>>>>>> 32f349045a85256cfb28c207c7f7acdf3e2d8ed1
+COLON                : 6 7 8 9 10 11 12
+DEDENT               : 6 7 8 9 10 11 12
+ELIF                 : 10 11
+ELSE                 : 12
+EQUALS               : 22
+EQUALS_EQUALS        : 17
+GREATER              : 18
+GREATER_EQUALS       : 20
+IDENTIFIER           : 15 17 18 19 20 21 22
+IF                   : 6 7 8 9
+INDENT               : 6 7 8 9 10 11 12
+LESSER               : 19
+LESSER_EQUALS        : 21
+NEWLINE              : 3 6 7 8 9 10 11 12
+NUMBER               : 16 17 18 19 20 21 22
 error                : 
 
 Nonterminals, with rules where they appear
 
-<<<<<<< HEAD
 assignment           : 4
-decrement            : 7
-elif_block           : 10 16 18
-else_block           : 11 16
-expression           : 12 13 14 14 15 16 17 18
-if_statement         : 9 13
-increment            : 6
-print_statement      : 5
+elif_blocks          : 7 8 11
+else_block           : 8 9
+empty                : 14
+expression           : 6 7 8 9 10 11
+if_statement         : 5
+ignored_block        : 6 7 8 9 10 11 12
 program              : 0
-standalone_statement : 8
 statement            : 2 3
-statement_list       : 1 3 12 13 14 14 15 15 16 17 18 19
+statement_list       : 1 3 13
 
 Parsing method: LALR
 
@@ -121,44 +68,21 @@ state 0
     (2) statement_list -> . statement
     (3) statement_list -> . statement NEWLINE statement_list
     (4) statement -> . assignment
-    (5) statement -> . print_statement
-    (6) statement -> . increment
-    (7) statement -> . decrement
-    (8) statement -> . standalone_statement
-    (9) statement -> . if_statement
-    (10) statement -> . elif_block
-    (11) statement -> . else_block
-    (27) assignment -> . IDENTIFIER EQUALS NUMBER
-    (28) print_statement -> . PRINT IDENTIFIER
-    (29) increment -> . IDENTIFIER PLUS_PLUS
-    (30) decrement -> . IDENTIFIER MINUS_MINUS
-    (31) standalone_statement -> . IDENTIFIER
-    (12) if_statement -> . IF expression COLON NEWLINE statement_list
-    (13) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-    (17) elif_block -> . ELIF expression COLON NEWLINE statement_list
-    (18) elif_block -> . ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
-    (19) else_block -> . ELSE COLON NEWLINE statement_list
+    (5) statement -> . if_statement
+    (22) assignment -> . IDENTIFIER EQUALS NUMBER
+    (6) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT
+    (7) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (8) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block
 
-    IDENTIFIER      shift and go to state 12
-    PRINT           shift and go to state 13
-    IF              shift and go to state 14
-    ELIF            shift and go to state 15
-    ELSE            shift and go to state 16
+    IDENTIFIER      shift and go to state 6
+    IF              shift and go to state 7
 
     program                        shift and go to state 1
     statement_list                 shift and go to state 2
     statement                      shift and go to state 3
     assignment                     shift and go to state 4
-    print_statement                shift and go to state 5
-    increment                      shift and go to state 6
-    decrement                      shift and go to state 7
-    standalone_statement           shift and go to state 8
-    if_statement                   shift and go to state 9
-    elif_block                     shift and go to state 10
-    else_block                     shift and go to state 11
+    if_statement                   shift and go to state 5
 
 state 1
 
@@ -178,11 +102,9 @@ state 3
     (2) statement_list -> statement .
     (3) statement_list -> statement . NEWLINE statement_list
 
-  ! shift/reduce conflict for NEWLINE resolved as shift
     $end            reduce using rule 2 (statement_list -> statement .)
-    NEWLINE         shift and go to state 17
-
-  ! NEWLINE         [ reduce using rule 2 (statement_list -> statement .) ]
+    DEDENT          reduce using rule 2 (statement_list -> statement .)
+    NEWLINE         shift and go to state 8
 
 
 state 4
@@ -191,782 +113,479 @@ state 4
 
     NEWLINE         reduce using rule 4 (statement -> assignment .)
     $end            reduce using rule 4 (statement -> assignment .)
+    DEDENT          reduce using rule 4 (statement -> assignment .)
 
 
 state 5
 
-    (5) statement -> print_statement .
+    (5) statement -> if_statement .
 
-    NEWLINE         reduce using rule 5 (statement -> print_statement .)
-    $end            reduce using rule 5 (statement -> print_statement .)
+    NEWLINE         reduce using rule 5 (statement -> if_statement .)
+    $end            reduce using rule 5 (statement -> if_statement .)
+    DEDENT          reduce using rule 5 (statement -> if_statement .)
 
 
 state 6
 
-    (6) statement -> increment .
+    (22) assignment -> IDENTIFIER . EQUALS NUMBER
 
-    NEWLINE         reduce using rule 6 (statement -> increment .)
-    $end            reduce using rule 6 (statement -> increment .)
+    EQUALS          shift and go to state 9
 
 
 state 7
 
-    (7) statement -> decrement .
+    (6) if_statement -> IF . expression COLON NEWLINE INDENT ignored_block DEDENT
+    (7) if_statement -> IF . expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (8) if_statement -> IF . expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> IF . expression COLON NEWLINE INDENT ignored_block DEDENT else_block
+    (15) expression -> . IDENTIFIER
+    (16) expression -> . NUMBER
+    (17) expression -> . IDENTIFIER EQUALS_EQUALS NUMBER
+    (18) expression -> . IDENTIFIER GREATER NUMBER
+    (19) expression -> . IDENTIFIER LESSER NUMBER
+    (20) expression -> . IDENTIFIER GREATER_EQUALS NUMBER
+    (21) expression -> . IDENTIFIER LESSER_EQUALS NUMBER
 
-    NEWLINE         reduce using rule 7 (statement -> decrement .)
-    $end            reduce using rule 7 (statement -> decrement .)
+    IDENTIFIER      shift and go to state 11
+    NUMBER          shift and go to state 12
 
+    expression                     shift and go to state 10
 
 state 8
-
-    (8) statement -> standalone_statement .
-
-    NEWLINE         reduce using rule 8 (statement -> standalone_statement .)
-    $end            reduce using rule 8 (statement -> standalone_statement .)
-
-
-state 9
-
-    (9) statement -> if_statement .
-
-    NEWLINE         reduce using rule 9 (statement -> if_statement .)
-    $end            reduce using rule 9 (statement -> if_statement .)
-
-
-state 10
-
-    (10) statement -> elif_block .
-
-    NEWLINE         reduce using rule 10 (statement -> elif_block .)
-    $end            reduce using rule 10 (statement -> elif_block .)
-
-
-state 11
-
-    (11) statement -> else_block .
-
-    NEWLINE         reduce using rule 11 (statement -> else_block .)
-    $end            reduce using rule 11 (statement -> else_block .)
-
-
-state 12
-
-    (27) assignment -> IDENTIFIER . EQUALS NUMBER
-    (29) increment -> IDENTIFIER . PLUS_PLUS
-    (30) decrement -> IDENTIFIER . MINUS_MINUS
-    (31) standalone_statement -> IDENTIFIER .
-
-    EQUALS          shift and go to state 18
-    PLUS_PLUS       shift and go to state 19
-    MINUS_MINUS     shift and go to state 20
-    NEWLINE         reduce using rule 31 (standalone_statement -> IDENTIFIER .)
-    $end            reduce using rule 31 (standalone_statement -> IDENTIFIER .)
-
-
-state 13
-
-    (28) print_statement -> PRINT . IDENTIFIER
-
-    IDENTIFIER      shift and go to state 21
-
-
-state 14
-
-    (12) if_statement -> IF . expression COLON NEWLINE statement_list
-    (13) if_statement -> IF . expression COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> IF . expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> IF . expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> IF . expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-    (20) expression -> . IDENTIFIER
-    (21) expression -> . NUMBER
-    (22) expression -> . IDENTIFIER EQUALS_EQUALS NUMBER
-    (23) expression -> . IDENTIFIER GREATER NUMBER
-    (24) expression -> . IDENTIFIER LESSER NUMBER
-    (25) expression -> . IDENTIFIER GREATER_EQUALS NUMBER
-    (26) expression -> . IDENTIFIER LESSER_EQUALS NUMBER
-
-    IDENTIFIER      shift and go to state 23
-    NUMBER          shift and go to state 24
-
-    expression                     shift and go to state 22
-
-state 15
-
-    (17) elif_block -> ELIF . expression COLON NEWLINE statement_list
-    (18) elif_block -> ELIF . expression COLON NEWLINE statement_list NEWLINE elif_block
-    (20) expression -> . IDENTIFIER
-    (21) expression -> . NUMBER
-    (22) expression -> . IDENTIFIER EQUALS_EQUALS NUMBER
-    (23) expression -> . IDENTIFIER GREATER NUMBER
-    (24) expression -> . IDENTIFIER LESSER NUMBER
-    (25) expression -> . IDENTIFIER GREATER_EQUALS NUMBER
-    (26) expression -> . IDENTIFIER LESSER_EQUALS NUMBER
-
-    IDENTIFIER      shift and go to state 23
-    NUMBER          shift and go to state 24
-
-    expression                     shift and go to state 25
-
-state 16
-
-    (19) else_block -> ELSE . COLON NEWLINE statement_list
-
-    COLON           shift and go to state 26
-
-
-state 17
 
     (3) statement_list -> statement NEWLINE . statement_list
     (2) statement_list -> . statement
     (3) statement_list -> . statement NEWLINE statement_list
     (4) statement -> . assignment
-    (5) statement -> . print_statement
-    (6) statement -> . increment
-    (7) statement -> . decrement
-    (8) statement -> . standalone_statement
-    (9) statement -> . if_statement
-    (10) statement -> . elif_block
-    (11) statement -> . else_block
-    (27) assignment -> . IDENTIFIER EQUALS NUMBER
-    (28) print_statement -> . PRINT IDENTIFIER
-    (29) increment -> . IDENTIFIER PLUS_PLUS
-    (30) decrement -> . IDENTIFIER MINUS_MINUS
-    (31) standalone_statement -> . IDENTIFIER
-    (12) if_statement -> . IF expression COLON NEWLINE statement_list
-    (13) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-    (17) elif_block -> . ELIF expression COLON NEWLINE statement_list
-    (18) elif_block -> . ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
-    (19) else_block -> . ELSE COLON NEWLINE statement_list
+    (5) statement -> . if_statement
+    (22) assignment -> . IDENTIFIER EQUALS NUMBER
+    (6) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT
+    (7) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (8) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block
 
-    IDENTIFIER      shift and go to state 12
-    PRINT           shift and go to state 13
-    IF              shift and go to state 14
-    ELIF            shift and go to state 15
-    ELSE            shift and go to state 16
+    IDENTIFIER      shift and go to state 6
+    IF              shift and go to state 7
 
     statement                      shift and go to state 3
-    statement_list                 shift and go to state 27
+    statement_list                 shift and go to state 13
     assignment                     shift and go to state 4
-    print_statement                shift and go to state 5
-    increment                      shift and go to state 6
-    decrement                      shift and go to state 7
-    standalone_statement           shift and go to state 8
-    if_statement                   shift and go to state 9
-    elif_block                     shift and go to state 10
-    else_block                     shift and go to state 11
+    if_statement                   shift and go to state 5
 
-state 18
+state 9
 
-    (27) assignment -> IDENTIFIER EQUALS . NUMBER
+    (22) assignment -> IDENTIFIER EQUALS . NUMBER
 
-    NUMBER          shift and go to state 28
+    NUMBER          shift and go to state 14
 
 
-state 19
+state 10
 
-    (29) increment -> IDENTIFIER PLUS_PLUS .
+    (6) if_statement -> IF expression . COLON NEWLINE INDENT ignored_block DEDENT
+    (7) if_statement -> IF expression . COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (8) if_statement -> IF expression . COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> IF expression . COLON NEWLINE INDENT ignored_block DEDENT else_block
 
-    NEWLINE         reduce using rule 29 (increment -> IDENTIFIER PLUS_PLUS .)
-    $end            reduce using rule 29 (increment -> IDENTIFIER PLUS_PLUS .)
-
-
-state 20
-
-    (30) decrement -> IDENTIFIER MINUS_MINUS .
-
-    NEWLINE         reduce using rule 30 (decrement -> IDENTIFIER MINUS_MINUS .)
-    $end            reduce using rule 30 (decrement -> IDENTIFIER MINUS_MINUS .)
+    COLON           shift and go to state 15
 
 
-state 21
+state 11
 
-    (28) print_statement -> PRINT IDENTIFIER .
+    (15) expression -> IDENTIFIER .
+    (17) expression -> IDENTIFIER . EQUALS_EQUALS NUMBER
+    (18) expression -> IDENTIFIER . GREATER NUMBER
+    (19) expression -> IDENTIFIER . LESSER NUMBER
+    (20) expression -> IDENTIFIER . GREATER_EQUALS NUMBER
+    (21) expression -> IDENTIFIER . LESSER_EQUALS NUMBER
 
-    NEWLINE         reduce using rule 28 (print_statement -> PRINT IDENTIFIER .)
-    $end            reduce using rule 28 (print_statement -> PRINT IDENTIFIER .)
-
-
-state 22
-
-    (12) if_statement -> IF expression . COLON NEWLINE statement_list
-    (13) if_statement -> IF expression . COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> IF expression . COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> IF expression . COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> IF expression . COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-
-    COLON           shift and go to state 29
+    COLON           reduce using rule 15 (expression -> IDENTIFIER .)
+    EQUALS_EQUALS   shift and go to state 16
+    GREATER         shift and go to state 17
+    LESSER          shift and go to state 18
+    GREATER_EQUALS  shift and go to state 19
+    LESSER_EQUALS   shift and go to state 20
 
 
-state 23
+state 12
 
-    (20) expression -> IDENTIFIER .
-    (22) expression -> IDENTIFIER . EQUALS_EQUALS NUMBER
-    (23) expression -> IDENTIFIER . GREATER NUMBER
-    (24) expression -> IDENTIFIER . LESSER NUMBER
-    (25) expression -> IDENTIFIER . GREATER_EQUALS NUMBER
-    (26) expression -> IDENTIFIER . LESSER_EQUALS NUMBER
+    (16) expression -> NUMBER .
 
-    COLON           reduce using rule 20 (expression -> IDENTIFIER .)
-    EQUALS_EQUALS   shift and go to state 30
-    GREATER         shift and go to state 31
-    LESSER          shift and go to state 32
-    GREATER_EQUALS  shift and go to state 33
-    LESSER_EQUALS   shift and go to state 34
+    COLON           reduce using rule 16 (expression -> NUMBER .)
 
 
-state 24
-
-    (21) expression -> NUMBER .
-
-    COLON           reduce using rule 21 (expression -> NUMBER .)
-
-
-state 25
-
-    (17) elif_block -> ELIF expression . COLON NEWLINE statement_list
-    (18) elif_block -> ELIF expression . COLON NEWLINE statement_list NEWLINE elif_block
-
-    COLON           shift and go to state 35
-
-
-state 26
-
-    (19) else_block -> ELSE COLON . NEWLINE statement_list
-
-    NEWLINE         shift and go to state 36
-
-
-state 27
+state 13
 
     (3) statement_list -> statement NEWLINE statement_list .
 
     $end            reduce using rule 3 (statement_list -> statement NEWLINE statement_list .)
-    NEWLINE         reduce using rule 3 (statement_list -> statement NEWLINE statement_list .)
+    DEDENT          reduce using rule 3 (statement_list -> statement NEWLINE statement_list .)
 
+
+state 14
+
+    (22) assignment -> IDENTIFIER EQUALS NUMBER .
+
+    NEWLINE         reduce using rule 22 (assignment -> IDENTIFIER EQUALS NUMBER .)
+    $end            reduce using rule 22 (assignment -> IDENTIFIER EQUALS NUMBER .)
+    DEDENT          reduce using rule 22 (assignment -> IDENTIFIER EQUALS NUMBER .)
+
+
+state 15
+
+    (6) if_statement -> IF expression COLON . NEWLINE INDENT ignored_block DEDENT
+    (7) if_statement -> IF expression COLON . NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (8) if_statement -> IF expression COLON . NEWLINE INDENT ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> IF expression COLON . NEWLINE INDENT ignored_block DEDENT else_block
+
+    NEWLINE         shift and go to state 21
+
+
+state 16
+
+    (17) expression -> IDENTIFIER EQUALS_EQUALS . NUMBER
+
+    NUMBER          shift and go to state 22
+
+
+state 17
+
+    (18) expression -> IDENTIFIER GREATER . NUMBER
+
+    NUMBER          shift and go to state 23
+
+
+state 18
+
+    (19) expression -> IDENTIFIER LESSER . NUMBER
+
+    NUMBER          shift and go to state 24
+
+
+state 19
+
+    (20) expression -> IDENTIFIER GREATER_EQUALS . NUMBER
+
+    NUMBER          shift and go to state 25
+
+
+state 20
+
+    (21) expression -> IDENTIFIER LESSER_EQUALS . NUMBER
+
+    NUMBER          shift and go to state 26
+
+
+state 21
+
+    (6) if_statement -> IF expression COLON NEWLINE . INDENT ignored_block DEDENT
+    (7) if_statement -> IF expression COLON NEWLINE . INDENT ignored_block DEDENT elif_blocks
+    (8) if_statement -> IF expression COLON NEWLINE . INDENT ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> IF expression COLON NEWLINE . INDENT ignored_block DEDENT else_block
+
+    INDENT          shift and go to state 27
+
+
+state 22
+
+    (17) expression -> IDENTIFIER EQUALS_EQUALS NUMBER .
+
+    COLON           reduce using rule 17 (expression -> IDENTIFIER EQUALS_EQUALS NUMBER .)
+
+
+state 23
+
+    (18) expression -> IDENTIFIER GREATER NUMBER .
+
+    COLON           reduce using rule 18 (expression -> IDENTIFIER GREATER NUMBER .)
+
+
+state 24
+
+    (19) expression -> IDENTIFIER LESSER NUMBER .
+
+    COLON           reduce using rule 19 (expression -> IDENTIFIER LESSER NUMBER .)
+
+
+state 25
+
+    (20) expression -> IDENTIFIER GREATER_EQUALS NUMBER .
+
+    COLON           reduce using rule 20 (expression -> IDENTIFIER GREATER_EQUALS NUMBER .)
+
+
+state 26
+
+    (21) expression -> IDENTIFIER LESSER_EQUALS NUMBER .
+
+    COLON           reduce using rule 21 (expression -> IDENTIFIER LESSER_EQUALS NUMBER .)
+
+
+state 27
+
+    (6) if_statement -> IF expression COLON NEWLINE INDENT . ignored_block DEDENT
+    (7) if_statement -> IF expression COLON NEWLINE INDENT . ignored_block DEDENT elif_blocks
+    (8) if_statement -> IF expression COLON NEWLINE INDENT . ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> IF expression COLON NEWLINE INDENT . ignored_block DEDENT else_block
+    (13) ignored_block -> . statement_list
+    (14) ignored_block -> . empty
+    (2) statement_list -> . statement
+    (3) statement_list -> . statement NEWLINE statement_list
+    (23) empty -> .
+    (4) statement -> . assignment
+    (5) statement -> . if_statement
+    (22) assignment -> . IDENTIFIER EQUALS NUMBER
+    (6) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT
+    (7) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (8) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block
+
+    DEDENT          reduce using rule 23 (empty -> .)
+    IDENTIFIER      shift and go to state 6
+    IF              shift and go to state 7
+
+    ignored_block                  shift and go to state 28
+    statement_list                 shift and go to state 29
+    empty                          shift and go to state 30
+    statement                      shift and go to state 3
+    assignment                     shift and go to state 4
+    if_statement                   shift and go to state 5
 
 state 28
 
-    (27) assignment -> IDENTIFIER EQUALS NUMBER .
+    (6) if_statement -> IF expression COLON NEWLINE INDENT ignored_block . DEDENT
+    (7) if_statement -> IF expression COLON NEWLINE INDENT ignored_block . DEDENT elif_blocks
+    (8) if_statement -> IF expression COLON NEWLINE INDENT ignored_block . DEDENT elif_blocks else_block
+    (9) if_statement -> IF expression COLON NEWLINE INDENT ignored_block . DEDENT else_block
 
-    NEWLINE         reduce using rule 27 (assignment -> IDENTIFIER EQUALS NUMBER .)
-    $end            reduce using rule 27 (assignment -> IDENTIFIER EQUALS NUMBER .)
+    DEDENT          shift and go to state 31
 
 
 state 29
 
-    (12) if_statement -> IF expression COLON . NEWLINE statement_list
-    (13) if_statement -> IF expression COLON . NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> IF expression COLON . NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> IF expression COLON . NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> IF expression COLON . NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
+    (13) ignored_block -> statement_list .
 
-    NEWLINE         shift and go to state 37
+    DEDENT          reduce using rule 13 (ignored_block -> statement_list .)
 
 
 state 30
 
-    (22) expression -> IDENTIFIER EQUALS_EQUALS . NUMBER
+    (14) ignored_block -> empty .
 
-    NUMBER          shift and go to state 38
+    DEDENT          reduce using rule 14 (ignored_block -> empty .)
 
 
 state 31
 
-    (23) expression -> IDENTIFIER GREATER . NUMBER
+    (6) if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT .
+    (7) if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT . elif_blocks
+    (8) if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT . elif_blocks else_block
+    (9) if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT . else_block
+    (10) elif_blocks -> . ELIF expression COLON NEWLINE INDENT ignored_block DEDENT
+    (11) elif_blocks -> . ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (12) else_block -> . ELSE COLON NEWLINE INDENT ignored_block DEDENT
 
-    NUMBER          shift and go to state 39
+    NEWLINE         reduce using rule 6 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT .)
+    $end            reduce using rule 6 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT .)
+    DEDENT          reduce using rule 6 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT .)
+    ELIF            shift and go to state 34
+    ELSE            shift and go to state 35
 
+    elif_blocks                    shift and go to state 32
+    else_block                     shift and go to state 33
 
 state 32
 
-    (24) expression -> IDENTIFIER LESSER . NUMBER
+    (7) if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks .
+    (8) if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks . else_block
+    (12) else_block -> . ELSE COLON NEWLINE INDENT ignored_block DEDENT
 
-    NUMBER          shift and go to state 40
+    NEWLINE         reduce using rule 7 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks .)
+    $end            reduce using rule 7 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks .)
+    DEDENT          reduce using rule 7 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks .)
+    ELSE            shift and go to state 35
 
+    else_block                     shift and go to state 36
 
 state 33
 
-    (25) expression -> IDENTIFIER GREATER_EQUALS . NUMBER
+    (9) if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block .
 
-    NUMBER          shift and go to state 41
+    NEWLINE         reduce using rule 9 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block .)
+    $end            reduce using rule 9 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block .)
+    DEDENT          reduce using rule 9 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block .)
 
 
 state 34
 
-    (26) expression -> IDENTIFIER LESSER_EQUALS . NUMBER
+    (10) elif_blocks -> ELIF . expression COLON NEWLINE INDENT ignored_block DEDENT
+    (11) elif_blocks -> ELIF . expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (15) expression -> . IDENTIFIER
+    (16) expression -> . NUMBER
+    (17) expression -> . IDENTIFIER EQUALS_EQUALS NUMBER
+    (18) expression -> . IDENTIFIER GREATER NUMBER
+    (19) expression -> . IDENTIFIER LESSER NUMBER
+    (20) expression -> . IDENTIFIER GREATER_EQUALS NUMBER
+    (21) expression -> . IDENTIFIER LESSER_EQUALS NUMBER
 
-    NUMBER          shift and go to state 42
+    IDENTIFIER      shift and go to state 11
+    NUMBER          shift and go to state 12
 
+    expression                     shift and go to state 37
 
 state 35
 
-    (17) elif_block -> ELIF expression COLON . NEWLINE statement_list
-    (18) elif_block -> ELIF expression COLON . NEWLINE statement_list NEWLINE elif_block
+    (12) else_block -> ELSE . COLON NEWLINE INDENT ignored_block DEDENT
 
-    NEWLINE         shift and go to state 43
+    COLON           shift and go to state 38
 
 
 state 36
 
-    (19) else_block -> ELSE COLON NEWLINE . statement_list
-    (2) statement_list -> . statement
-    (3) statement_list -> . statement NEWLINE statement_list
-    (4) statement -> . assignment
-    (5) statement -> . print_statement
-    (6) statement -> . increment
-    (7) statement -> . decrement
-    (8) statement -> . standalone_statement
-    (9) statement -> . if_statement
-    (10) statement -> . elif_block
-    (11) statement -> . else_block
-    (27) assignment -> . IDENTIFIER EQUALS NUMBER
-    (28) print_statement -> . PRINT IDENTIFIER
-    (29) increment -> . IDENTIFIER PLUS_PLUS
-    (30) decrement -> . IDENTIFIER MINUS_MINUS
-    (31) standalone_statement -> . IDENTIFIER
-    (12) if_statement -> . IF expression COLON NEWLINE statement_list
-    (13) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-    (17) elif_block -> . ELIF expression COLON NEWLINE statement_list
-    (18) elif_block -> . ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
-    (19) else_block -> . ELSE COLON NEWLINE statement_list
+    (8) if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block .
 
-    IDENTIFIER      shift and go to state 12
-    PRINT           shift and go to state 13
-    IF              shift and go to state 14
-    ELIF            shift and go to state 15
-    ELSE            shift and go to state 16
+    NEWLINE         reduce using rule 8 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block .)
+    $end            reduce using rule 8 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block .)
+    DEDENT          reduce using rule 8 (if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block .)
 
-    statement_list                 shift and go to state 44
-    statement                      shift and go to state 3
-    assignment                     shift and go to state 4
-    print_statement                shift and go to state 5
-    increment                      shift and go to state 6
-    decrement                      shift and go to state 7
-    standalone_statement           shift and go to state 8
-    if_statement                   shift and go to state 9
-    elif_block                     shift and go to state 10
-    else_block                     shift and go to state 11
 
 state 37
 
-    (12) if_statement -> IF expression COLON NEWLINE . statement_list
-    (13) if_statement -> IF expression COLON NEWLINE . statement_list NEWLINE if_statement
-    (14) if_statement -> IF expression COLON NEWLINE . statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> IF expression COLON NEWLINE . statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> IF expression COLON NEWLINE . statement_list NEWLINE elif_block NEWLINE else_block
-    (2) statement_list -> . statement
-    (3) statement_list -> . statement NEWLINE statement_list
-    (4) statement -> . assignment
-    (5) statement -> . print_statement
-    (6) statement -> . increment
-    (7) statement -> . decrement
-    (8) statement -> . standalone_statement
-    (9) statement -> . if_statement
-    (10) statement -> . elif_block
-    (11) statement -> . else_block
-    (27) assignment -> . IDENTIFIER EQUALS NUMBER
-    (28) print_statement -> . PRINT IDENTIFIER
-    (29) increment -> . IDENTIFIER PLUS_PLUS
-    (30) decrement -> . IDENTIFIER MINUS_MINUS
-    (31) standalone_statement -> . IDENTIFIER
-    (12) if_statement -> . IF expression COLON NEWLINE statement_list
-    (13) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-    (17) elif_block -> . ELIF expression COLON NEWLINE statement_list
-    (18) elif_block -> . ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
-    (19) else_block -> . ELSE COLON NEWLINE statement_list
+    (10) elif_blocks -> ELIF expression . COLON NEWLINE INDENT ignored_block DEDENT
+    (11) elif_blocks -> ELIF expression . COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
 
-    IDENTIFIER      shift and go to state 12
-    PRINT           shift and go to state 13
-    IF              shift and go to state 14
-    ELIF            shift and go to state 15
-    ELSE            shift and go to state 16
+    COLON           shift and go to state 39
 
-    statement_list                 shift and go to state 45
-    if_statement                   shift and go to state 9
-    elif_block                     shift and go to state 10
-    else_block                     shift and go to state 11
-    statement                      shift and go to state 3
-    assignment                     shift and go to state 4
-    print_statement                shift and go to state 5
-    increment                      shift and go to state 6
-    decrement                      shift and go to state 7
-    standalone_statement           shift and go to state 8
 
 state 38
 
-    (22) expression -> IDENTIFIER EQUALS_EQUALS NUMBER .
+    (12) else_block -> ELSE COLON . NEWLINE INDENT ignored_block DEDENT
 
-    COLON           reduce using rule 22 (expression -> IDENTIFIER EQUALS_EQUALS NUMBER .)
+    NEWLINE         shift and go to state 40
 
 
 state 39
 
-    (23) expression -> IDENTIFIER GREATER NUMBER .
+    (10) elif_blocks -> ELIF expression COLON . NEWLINE INDENT ignored_block DEDENT
+    (11) elif_blocks -> ELIF expression COLON . NEWLINE INDENT ignored_block DEDENT elif_blocks
 
-    COLON           reduce using rule 23 (expression -> IDENTIFIER GREATER NUMBER .)
+    NEWLINE         shift and go to state 41
 
 
 state 40
 
-    (24) expression -> IDENTIFIER LESSER NUMBER .
+    (12) else_block -> ELSE COLON NEWLINE . INDENT ignored_block DEDENT
 
-    COLON           reduce using rule 24 (expression -> IDENTIFIER LESSER NUMBER .)
+    INDENT          shift and go to state 42
 
 
 state 41
 
-    (25) expression -> IDENTIFIER GREATER_EQUALS NUMBER .
+    (10) elif_blocks -> ELIF expression COLON NEWLINE . INDENT ignored_block DEDENT
+    (11) elif_blocks -> ELIF expression COLON NEWLINE . INDENT ignored_block DEDENT elif_blocks
 
-    COLON           reduce using rule 25 (expression -> IDENTIFIER GREATER_EQUALS NUMBER .)
+    INDENT          shift and go to state 43
 
 
 state 42
 
-    (26) expression -> IDENTIFIER LESSER_EQUALS NUMBER .
+    (12) else_block -> ELSE COLON NEWLINE INDENT . ignored_block DEDENT
+    (13) ignored_block -> . statement_list
+    (14) ignored_block -> . empty
+    (2) statement_list -> . statement
+    (3) statement_list -> . statement NEWLINE statement_list
+    (23) empty -> .
+    (4) statement -> . assignment
+    (5) statement -> . if_statement
+    (22) assignment -> . IDENTIFIER EQUALS NUMBER
+    (6) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT
+    (7) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (8) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block
 
-    COLON           reduce using rule 26 (expression -> IDENTIFIER LESSER_EQUALS NUMBER .)
+    DEDENT          reduce using rule 23 (empty -> .)
+    IDENTIFIER      shift and go to state 6
+    IF              shift and go to state 7
 
+    ignored_block                  shift and go to state 44
+    statement_list                 shift and go to state 29
+    empty                          shift and go to state 30
+    statement                      shift and go to state 3
+    assignment                     shift and go to state 4
+    if_statement                   shift and go to state 5
 
 state 43
 
-    (17) elif_block -> ELIF expression COLON NEWLINE . statement_list
-    (18) elif_block -> ELIF expression COLON NEWLINE . statement_list NEWLINE elif_block
+    (10) elif_blocks -> ELIF expression COLON NEWLINE INDENT . ignored_block DEDENT
+    (11) elif_blocks -> ELIF expression COLON NEWLINE INDENT . ignored_block DEDENT elif_blocks
+    (13) ignored_block -> . statement_list
+    (14) ignored_block -> . empty
     (2) statement_list -> . statement
     (3) statement_list -> . statement NEWLINE statement_list
+    (23) empty -> .
     (4) statement -> . assignment
-    (5) statement -> . print_statement
-    (6) statement -> . increment
-    (7) statement -> . decrement
-    (8) statement -> . standalone_statement
-    (9) statement -> . if_statement
-    (10) statement -> . elif_block
-    (11) statement -> . else_block
-    (27) assignment -> . IDENTIFIER EQUALS NUMBER
-    (28) print_statement -> . PRINT IDENTIFIER
-    (29) increment -> . IDENTIFIER PLUS_PLUS
-    (30) decrement -> . IDENTIFIER MINUS_MINUS
-    (31) standalone_statement -> . IDENTIFIER
-    (12) if_statement -> . IF expression COLON NEWLINE statement_list
-    (13) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-    (17) elif_block -> . ELIF expression COLON NEWLINE statement_list
-    (18) elif_block -> . ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
-    (19) else_block -> . ELSE COLON NEWLINE statement_list
+    (5) statement -> . if_statement
+    (22) assignment -> . IDENTIFIER EQUALS NUMBER
+    (6) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT
+    (7) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
+    (8) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block
+    (9) if_statement -> . IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block
 
-    IDENTIFIER      shift and go to state 12
-    PRINT           shift and go to state 13
-    IF              shift and go to state 14
-    ELIF            shift and go to state 15
-    ELSE            shift and go to state 16
+    DEDENT          reduce using rule 23 (empty -> .)
+    IDENTIFIER      shift and go to state 6
+    IF              shift and go to state 7
 
-    statement_list                 shift and go to state 46
-    elif_block                     shift and go to state 10
+    ignored_block                  shift and go to state 45
+    statement_list                 shift and go to state 29
+    empty                          shift and go to state 30
     statement                      shift and go to state 3
     assignment                     shift and go to state 4
-    print_statement                shift and go to state 5
-    increment                      shift and go to state 6
-    decrement                      shift and go to state 7
-    standalone_statement           shift and go to state 8
-    if_statement                   shift and go to state 9
-    else_block                     shift and go to state 11
+    if_statement                   shift and go to state 5
 
 state 44
 
-    (19) else_block -> ELSE COLON NEWLINE statement_list .
+    (12) else_block -> ELSE COLON NEWLINE INDENT ignored_block . DEDENT
 
-    NEWLINE         reduce using rule 19 (else_block -> ELSE COLON NEWLINE statement_list .)
-    $end            reduce using rule 19 (else_block -> ELSE COLON NEWLINE statement_list .)
+    DEDENT          shift and go to state 46
 
 
 state 45
 
-    (12) if_statement -> IF expression COLON NEWLINE statement_list .
-    (13) if_statement -> IF expression COLON NEWLINE statement_list . NEWLINE if_statement
-    (14) if_statement -> IF expression COLON NEWLINE statement_list . NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> IF expression COLON NEWLINE statement_list . NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> IF expression COLON NEWLINE statement_list . NEWLINE elif_block NEWLINE else_block
+    (10) elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block . DEDENT
+    (11) elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block . DEDENT elif_blocks
 
-  ! shift/reduce conflict for NEWLINE resolved as shift
-    $end            reduce using rule 12 (if_statement -> IF expression COLON NEWLINE statement_list .)
-    NEWLINE         shift and go to state 47
-
-  ! NEWLINE         [ reduce using rule 12 (if_statement -> IF expression COLON NEWLINE statement_list .) ]
+    DEDENT          shift and go to state 47
 
 
 state 46
 
-    (17) elif_block -> ELIF expression COLON NEWLINE statement_list .
-    (18) elif_block -> ELIF expression COLON NEWLINE statement_list . NEWLINE elif_block
+    (12) else_block -> ELSE COLON NEWLINE INDENT ignored_block DEDENT .
 
-  ! shift/reduce conflict for NEWLINE resolved as shift
-    $end            reduce using rule 17 (elif_block -> ELIF expression COLON NEWLINE statement_list .)
-    NEWLINE         shift and go to state 48
-
-  ! NEWLINE         [ reduce using rule 17 (elif_block -> ELIF expression COLON NEWLINE statement_list .) ]
+    NEWLINE         reduce using rule 12 (else_block -> ELSE COLON NEWLINE INDENT ignored_block DEDENT .)
+    $end            reduce using rule 12 (else_block -> ELSE COLON NEWLINE INDENT ignored_block DEDENT .)
+    DEDENT          reduce using rule 12 (else_block -> ELSE COLON NEWLINE INDENT ignored_block DEDENT .)
 
 
 state 47
 
-    (13) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE . if_statement
-    (14) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE . ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE . ELSE COLON NEWLINE statement_list
-    (16) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE . elif_block NEWLINE else_block
-    (12) if_statement -> . IF expression COLON NEWLINE statement_list
-    (13) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-    (17) elif_block -> . ELIF expression COLON NEWLINE statement_list
-    (18) elif_block -> . ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
+    (10) elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT .
+    (11) elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT . elif_blocks
+    (10) elif_blocks -> . ELIF expression COLON NEWLINE INDENT ignored_block DEDENT
+    (11) elif_blocks -> . ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks
 
-    ELIF            shift and go to state 50
-    ELSE            shift and go to state 51
-    IF              shift and go to state 14
+    ELSE            reduce using rule 10 (elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT .)
+    NEWLINE         reduce using rule 10 (elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT .)
+    $end            reduce using rule 10 (elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT .)
+    DEDENT          reduce using rule 10 (elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT .)
+    ELIF            shift and go to state 34
 
-    if_statement                   shift and go to state 49
-    elif_block                     shift and go to state 52
+    elif_blocks                    shift and go to state 48
 
 state 48
 
-    (18) elif_block -> ELIF expression COLON NEWLINE statement_list NEWLINE . elif_block
-    (17) elif_block -> . ELIF expression COLON NEWLINE statement_list
-    (18) elif_block -> . ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
+    (11) elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks .
 
-    ELIF            shift and go to state 15
+    ELSE            reduce using rule 11 (elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks .)
+    NEWLINE         reduce using rule 11 (elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks .)
+    $end            reduce using rule 11 (elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks .)
+    DEDENT          reduce using rule 11 (elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks .)
 
-    elif_block                     shift and go to state 53
-
-state 49
-
-    (13) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE if_statement .
-
-    NEWLINE         reduce using rule 13 (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE if_statement .)
-    $end            reduce using rule 13 (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE if_statement .)
-
-
-state 50
-
-    (14) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF . expression COLON NEWLINE statement_list
-    (17) elif_block -> ELIF . expression COLON NEWLINE statement_list
-    (18) elif_block -> ELIF . expression COLON NEWLINE statement_list NEWLINE elif_block
-    (20) expression -> . IDENTIFIER
-    (21) expression -> . NUMBER
-    (22) expression -> . IDENTIFIER EQUALS_EQUALS NUMBER
-    (23) expression -> . IDENTIFIER GREATER NUMBER
-    (24) expression -> . IDENTIFIER LESSER NUMBER
-    (25) expression -> . IDENTIFIER GREATER_EQUALS NUMBER
-    (26) expression -> . IDENTIFIER LESSER_EQUALS NUMBER
-
-    IDENTIFIER      shift and go to state 23
-    NUMBER          shift and go to state 24
-
-    expression                     shift and go to state 54
-
-state 51
-
-    (15) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELSE . COLON NEWLINE statement_list
-
-    COLON           shift and go to state 55
-
-
-state 52
-
-    (16) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE elif_block . NEWLINE else_block
-
-    NEWLINE         shift and go to state 56
-
-
-state 53
-
-    (18) elif_block -> ELIF expression COLON NEWLINE statement_list NEWLINE elif_block .
-
-    NEWLINE         reduce using rule 18 (elif_block -> ELIF expression COLON NEWLINE statement_list NEWLINE elif_block .)
-    $end            reduce using rule 18 (elif_block -> ELIF expression COLON NEWLINE statement_list NEWLINE elif_block .)
-
-
-state 54
-
-    (14) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression . COLON NEWLINE statement_list
-    (17) elif_block -> ELIF expression . COLON NEWLINE statement_list
-    (18) elif_block -> ELIF expression . COLON NEWLINE statement_list NEWLINE elif_block
-
-    COLON           shift and go to state 57
-
-
-state 55
-
-    (15) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON . NEWLINE statement_list
-
-    NEWLINE         shift and go to state 58
-
-
-state 56
-
-    (16) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE . else_block
-    (19) else_block -> . ELSE COLON NEWLINE statement_list
-
-    ELSE            shift and go to state 16
-
-    else_block                     shift and go to state 59
-
-state 57
-
-    (14) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON . NEWLINE statement_list
-    (17) elif_block -> ELIF expression COLON . NEWLINE statement_list
-    (18) elif_block -> ELIF expression COLON . NEWLINE statement_list NEWLINE elif_block
-
-    NEWLINE         shift and go to state 60
-
-
-state 58
-
-    (15) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE . statement_list
-    (2) statement_list -> . statement
-    (3) statement_list -> . statement NEWLINE statement_list
-    (4) statement -> . assignment
-    (5) statement -> . print_statement
-    (6) statement -> . increment
-    (7) statement -> . decrement
-    (8) statement -> . standalone_statement
-    (9) statement -> . if_statement
-    (10) statement -> . elif_block
-    (11) statement -> . else_block
-    (27) assignment -> . IDENTIFIER EQUALS NUMBER
-    (28) print_statement -> . PRINT IDENTIFIER
-    (29) increment -> . IDENTIFIER PLUS_PLUS
-    (30) decrement -> . IDENTIFIER MINUS_MINUS
-    (31) standalone_statement -> . IDENTIFIER
-    (12) if_statement -> . IF expression COLON NEWLINE statement_list
-    (13) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-    (17) elif_block -> . ELIF expression COLON NEWLINE statement_list
-    (18) elif_block -> . ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
-    (19) else_block -> . ELSE COLON NEWLINE statement_list
-
-    IDENTIFIER      shift and go to state 12
-    PRINT           shift and go to state 13
-    IF              shift and go to state 14
-    ELIF            shift and go to state 15
-    ELSE            shift and go to state 16
-
-    statement_list                 shift and go to state 61
-    statement                      shift and go to state 3
-    assignment                     shift and go to state 4
-    print_statement                shift and go to state 5
-    increment                      shift and go to state 6
-    decrement                      shift and go to state 7
-    standalone_statement           shift and go to state 8
-    if_statement                   shift and go to state 9
-    elif_block                     shift and go to state 10
-    else_block                     shift and go to state 11
-
-state 59
-
-    (16) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block .
-
-    NEWLINE         reduce using rule 16 (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block .)
-    $end            reduce using rule 16 (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block .)
-
-
-state 60
-
-    (14) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE . statement_list
-    (17) elif_block -> ELIF expression COLON NEWLINE . statement_list
-    (18) elif_block -> ELIF expression COLON NEWLINE . statement_list NEWLINE elif_block
-    (2) statement_list -> . statement
-    (3) statement_list -> . statement NEWLINE statement_list
-    (4) statement -> . assignment
-    (5) statement -> . print_statement
-    (6) statement -> . increment
-    (7) statement -> . decrement
-    (8) statement -> . standalone_statement
-    (9) statement -> . if_statement
-    (10) statement -> . elif_block
-    (11) statement -> . else_block
-    (27) assignment -> . IDENTIFIER EQUALS NUMBER
-    (28) print_statement -> . PRINT IDENTIFIER
-    (29) increment -> . IDENTIFIER PLUS_PLUS
-    (30) decrement -> . IDENTIFIER MINUS_MINUS
-    (31) standalone_statement -> . IDENTIFIER
-    (12) if_statement -> . IF expression COLON NEWLINE statement_list
-    (13) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE if_statement
-    (14) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list
-    (15) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list
-    (16) if_statement -> . IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block
-    (17) elif_block -> . ELIF expression COLON NEWLINE statement_list
-    (18) elif_block -> . ELIF expression COLON NEWLINE statement_list NEWLINE elif_block
-    (19) else_block -> . ELSE COLON NEWLINE statement_list
-
-    IDENTIFIER      shift and go to state 12
-    PRINT           shift and go to state 13
-    IF              shift and go to state 14
-    ELIF            shift and go to state 15
-    ELSE            shift and go to state 16
-
-    statement_list                 shift and go to state 62
-    elif_block                     shift and go to state 10
-    statement                      shift and go to state 3
-    assignment                     shift and go to state 4
-    print_statement                shift and go to state 5
-    increment                      shift and go to state 6
-    decrement                      shift and go to state 7
-    standalone_statement           shift and go to state 8
-    if_statement                   shift and go to state 9
-    else_block                     shift and go to state 11
-
-state 61
-
-    (15) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list .
-
-    NEWLINE         reduce using rule 15 (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list .)
-    $end            reduce using rule 15 (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list .)
-
-
-state 62
-
-    (14) if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list .
-    (17) elif_block -> ELIF expression COLON NEWLINE statement_list .
-    (18) elif_block -> ELIF expression COLON NEWLINE statement_list . NEWLINE elif_block
-
-  ! reduce/reduce conflict for NEWLINE resolved using rule 14 (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list .)
-  ! shift/reduce conflict for NEWLINE resolved as shift
-    $end            reduce using rule 14 (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list .)
-    NEWLINE         shift and go to state 48
-
-  ! NEWLINE         [ reduce using rule 14 (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list .) ]
-  ! NEWLINE         [ reduce using rule 17 (elif_block -> ELIF expression COLON NEWLINE statement_list .) ]
-
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for NEWLINE in state 3 resolved as shift
-WARNING: shift/reduce conflict for NEWLINE in state 45 resolved as shift
-WARNING: shift/reduce conflict for NEWLINE in state 46 resolved as shift
-WARNING: shift/reduce conflict for NEWLINE in state 62 resolved as shift
-WARNING: reduce/reduce conflict in state 62 resolved using rule (if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list)
-WARNING: rejected rule (elif_block -> ELIF expression COLON NEWLINE statement_list) in state 62
-=======
-COMMA                : 5
-LPAREN               : 2 3
-RPAREN               : 2 3
-SEMICOLON            : 1
-TYPE                 : 1 6
-function_declaration : 0
-parameter_declaration : 4 5
-parameter_declarations : 2 5
-parameter_list       : 1
-
->>>>>>> 32f349045a85256cfb28c207c7f7acdf3e2d8ed1

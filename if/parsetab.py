@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COLON ELIF ELSE EQUALS EQUALS_EQUALS GREATER GREATER_EQUALS IDENTIFIER IF LESSER LESSER_EQUALS MINUS_MINUS NEWLINE NUMBER PLUS_PLUS PRINTprogram : statement_liststatement_list : statement\n                      | statement NEWLINE statement_liststatement : assignment\n                 | print_statement\n                 | increment\n                 | decrement\n                 | standalone_statement\n                 | if_statement\n                 | elif_block\n                 | else_blockif_statement : IF expression COLON NEWLINE statement_list\n                    | IF expression COLON NEWLINE statement_list NEWLINE if_statement\n                    | IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list\n                    | IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list\n                    | IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_blockelif_block : ELIF expression COLON NEWLINE statement_list\n                  | ELIF expression COLON NEWLINE statement_list NEWLINE elif_blockelse_block : ELSE COLON NEWLINE statement_listexpression : IDENTIFIER\n                  | NUMBER\n                  | IDENTIFIER EQUALS_EQUALS NUMBER\n                  | IDENTIFIER GREATER NUMBER\n                  | IDENTIFIER LESSER NUMBER\n                  | IDENTIFIER GREATER_EQUALS NUMBER\n                  | IDENTIFIER LESSER_EQUALS NUMBERassignment : IDENTIFIER EQUALS NUMBERprint_statement : PRINT IDENTIFIERincrement : IDENTIFIER PLUS_PLUSdecrement : IDENTIFIER MINUS_MINUSstandalone_statement : IDENTIFIER'
+_lr_signature = 'COLON DEDENT ELIF ELSE EQUALS EQUALS_EQUALS GREATER GREATER_EQUALS IDENTIFIER IF INDENT LESSER LESSER_EQUALS NEWLINE NUMBERprogram : statement_liststatement_list : statement\n                      | statement NEWLINE statement_liststatement : assignment\n                 | if_statementif_statement : IF expression COLON NEWLINE INDENT ignored_block DEDENT\n                    | IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks\n                    | IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block\n                    | IF expression COLON NEWLINE INDENT ignored_block DEDENT else_blockelif_blocks : ELIF expression COLON NEWLINE INDENT ignored_block DEDENT\n                   | ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blockselse_block : ELSE COLON NEWLINE INDENT ignored_block DEDENTignored_block : statement_list\n                     | emptyexpression : IDENTIFIER\n                  | NUMBER\n                  | IDENTIFIER EQUALS_EQUALS NUMBER\n                  | IDENTIFIER GREATER NUMBER\n                  | IDENTIFIER LESSER NUMBER\n                  | IDENTIFIER GREATER_EQUALS NUMBER\n                  | IDENTIFIER LESSER_EQUALS NUMBERassignment : IDENTIFIER EQUALS NUMBERempty :'
     
-_lr_action_items = {'IDENTIFIER':([0,13,14,15,17,36,37,43,50,58,60,],[12,21,23,23,12,12,12,12,23,12,12,]),'PRINT':([0,17,36,37,43,58,60,],[13,13,13,13,13,13,13,]),'IF':([0,17,36,37,43,47,58,60,],[14,14,14,14,14,14,14,14,]),'ELIF':([0,17,36,37,43,47,48,58,60,],[15,15,15,15,15,50,15,15,15,]),'ELSE':([0,17,36,37,43,47,56,58,60,],[16,16,16,16,16,51,16,16,16,]),'$end':([1,2,3,4,5,6,7,8,9,10,11,12,19,20,21,27,28,44,45,46,49,53,59,61,62,],[0,-1,-2,-4,-5,-6,-7,-8,-9,-10,-11,-31,-29,-30,-28,-3,-27,-19,-12,-17,-13,-18,-16,-15,-14,]),'NEWLINE':([3,4,5,6,7,8,9,10,11,12,19,20,21,26,27,28,29,35,44,45,46,49,52,53,55,57,59,61,62,],[17,-4,-5,-6,-7,-8,-9,-10,-11,-31,-29,-30,-28,36,-3,-27,37,43,-19,47,48,-13,56,-18,58,60,-16,-15,48,]),'EQUALS':([12,],[18,]),'PLUS_PLUS':([12,],[19,]),'MINUS_MINUS':([12,],[20,]),'NUMBER':([14,15,18,30,31,32,33,34,50,],[24,24,28,38,39,40,41,42,24,]),'COLON':([16,22,23,24,25,38,39,40,41,42,51,54,],[26,29,-20,-21,35,-22,-23,-24,-25,-26,55,57,]),'EQUALS_EQUALS':([23,],[30,]),'GREATER':([23,],[31,]),'LESSER':([23,],[32,]),'GREATER_EQUALS':([23,],[33,]),'LESSER_EQUALS':([23,],[34,]),}
+_lr_action_items = {'IDENTIFIER':([0,7,8,27,34,42,43,],[6,11,6,6,11,6,6,]),'IF':([0,8,27,42,43,],[7,7,7,7,7,]),'$end':([1,2,3,4,5,13,14,31,32,33,36,46,47,48,],[0,-1,-2,-4,-5,-3,-22,-6,-7,-9,-8,-12,-10,-11,]),'DEDENT':([3,4,5,13,14,27,28,29,30,31,32,33,36,42,43,44,45,46,47,48,],[-2,-4,-5,-3,-22,-23,31,-13,-14,-6,-7,-9,-8,-23,-23,46,47,-12,-10,-11,]),'NEWLINE':([3,4,5,14,15,31,32,33,36,38,39,46,47,48,],[8,-4,-5,-22,21,-6,-7,-9,-8,40,41,-12,-10,-11,]),'EQUALS':([6,],[9,]),'NUMBER':([7,9,16,17,18,19,20,34,],[12,14,22,23,24,25,26,12,]),'COLON':([10,11,12,22,23,24,25,26,35,37,],[15,-15,-16,-17,-18,-19,-20,-21,38,39,]),'EQUALS_EQUALS':([11,],[16,]),'GREATER':([11,],[17,]),'LESSER':([11,],[18,]),'GREATER_EQUALS':([11,],[19,]),'LESSER_EQUALS':([11,],[20,]),'INDENT':([21,40,41,],[27,42,43,]),'ELIF':([31,47,],[34,34,]),'ELSE':([31,32,47,48,],[35,35,-10,-11,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'statement_list':([0,17,36,37,43,58,60,],[2,27,44,45,46,61,62,]),'statement':([0,17,36,37,43,58,60,],[3,3,3,3,3,3,3,]),'assignment':([0,17,36,37,43,58,60,],[4,4,4,4,4,4,4,]),'print_statement':([0,17,36,37,43,58,60,],[5,5,5,5,5,5,5,]),'increment':([0,17,36,37,43,58,60,],[6,6,6,6,6,6,6,]),'decrement':([0,17,36,37,43,58,60,],[7,7,7,7,7,7,7,]),'standalone_statement':([0,17,36,37,43,58,60,],[8,8,8,8,8,8,8,]),'if_statement':([0,17,36,37,43,47,58,60,],[9,9,9,9,9,49,9,9,]),'elif_block':([0,17,36,37,43,47,48,58,60,],[10,10,10,10,10,52,53,10,10,]),'else_block':([0,17,36,37,43,56,58,60,],[11,11,11,11,11,59,11,11,]),'expression':([14,15,50,],[22,25,54,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statement_list':([0,8,27,42,43,],[2,13,29,29,29,]),'statement':([0,8,27,42,43,],[3,3,3,3,3,]),'assignment':([0,8,27,42,43,],[4,4,4,4,4,]),'if_statement':([0,8,27,42,43,],[5,5,5,5,5,]),'expression':([7,34,],[10,37,]),'ignored_block':([27,42,43,],[28,44,45,]),'empty':([27,42,43,],[30,30,30,]),'elif_blocks':([31,47,],[32,48,]),'else_block':([31,32,],[33,36,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,35 +27,27 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> statement_list','program',1,'p_program','parser.py',5),
-  ('statement_list -> statement','statement_list',1,'p_statement_list','parser.py',9),
-  ('statement_list -> statement NEWLINE statement_list','statement_list',3,'p_statement_list','parser.py',10),
-  ('statement -> assignment','statement',1,'p_statement','parser.py',14),
-  ('statement -> print_statement','statement',1,'p_statement','parser.py',15),
-  ('statement -> increment','statement',1,'p_statement','parser.py',16),
-  ('statement -> decrement','statement',1,'p_statement','parser.py',17),
-  ('statement -> standalone_statement','statement',1,'p_statement','parser.py',18),
-  ('statement -> if_statement','statement',1,'p_statement','parser.py',19),
-  ('statement -> elif_block','statement',1,'p_statement','parser.py',20),
-  ('statement -> else_block','statement',1,'p_statement','parser.py',21),
-  ('if_statement -> IF expression COLON NEWLINE statement_list','if_statement',5,'p_if_statement','parser.py',25),
-  ('if_statement -> IF expression COLON NEWLINE statement_list NEWLINE if_statement','if_statement',7,'p_if_statement','parser.py',26),
-  ('if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELIF expression COLON NEWLINE statement_list','if_statement',11,'p_if_statement','parser.py',27),
-  ('if_statement -> IF expression COLON NEWLINE statement_list NEWLINE ELSE COLON NEWLINE statement_list','if_statement',10,'p_if_statement','parser.py',28),
-  ('if_statement -> IF expression COLON NEWLINE statement_list NEWLINE elif_block NEWLINE else_block','if_statement',9,'p_if_statement','parser.py',29),
-  ('elif_block -> ELIF expression COLON NEWLINE statement_list','elif_block',5,'p_elif_block','parser.py',44),
-  ('elif_block -> ELIF expression COLON NEWLINE statement_list NEWLINE elif_block','elif_block',7,'p_elif_block','parser.py',45),
-  ('else_block -> ELSE COLON NEWLINE statement_list','else_block',4,'p_else_block','parser.py',53),
-  ('expression -> IDENTIFIER','expression',1,'p_expression','parser.py',58),
-  ('expression -> NUMBER','expression',1,'p_expression','parser.py',59),
-  ('expression -> IDENTIFIER EQUALS_EQUALS NUMBER','expression',3,'p_expression','parser.py',60),
-  ('expression -> IDENTIFIER GREATER NUMBER','expression',3,'p_expression','parser.py',61),
-  ('expression -> IDENTIFIER LESSER NUMBER','expression',3,'p_expression','parser.py',62),
-  ('expression -> IDENTIFIER GREATER_EQUALS NUMBER','expression',3,'p_expression','parser.py',63),
-  ('expression -> IDENTIFIER LESSER_EQUALS NUMBER','expression',3,'p_expression','parser.py',64),
-  ('assignment -> IDENTIFIER EQUALS NUMBER','assignment',3,'p_assignment','parser.py',71),
-  ('print_statement -> PRINT IDENTIFIER','print_statement',2,'p_print_statement','parser.py',75),
-  ('increment -> IDENTIFIER PLUS_PLUS','increment',2,'p_increment','parser.py',79),
-  ('decrement -> IDENTIFIER MINUS_MINUS','decrement',2,'p_decrement','parser.py',83),
-  ('standalone_statement -> IDENTIFIER','standalone_statement',1,'p_standalone_statement','parser.py',87),
+  ('program -> statement_list','program',1,'p_program','if_parser.py',6),
+  ('statement_list -> statement','statement_list',1,'p_statement_list','if_parser.py',10),
+  ('statement_list -> statement NEWLINE statement_list','statement_list',3,'p_statement_list','if_parser.py',11),
+  ('statement -> assignment','statement',1,'p_statement','if_parser.py',15),
+  ('statement -> if_statement','statement',1,'p_statement','if_parser.py',16),
+  ('if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT','if_statement',7,'p_if_statement','if_parser.py',20),
+  ('if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks','if_statement',8,'p_if_statement','if_parser.py',21),
+  ('if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks else_block','if_statement',9,'p_if_statement','if_parser.py',22),
+  ('if_statement -> IF expression COLON NEWLINE INDENT ignored_block DEDENT else_block','if_statement',8,'p_if_statement','if_parser.py',23),
+  ('elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT','elif_blocks',7,'p_elif_blocks','if_parser.py',27),
+  ('elif_blocks -> ELIF expression COLON NEWLINE INDENT ignored_block DEDENT elif_blocks','elif_blocks',8,'p_elif_blocks','if_parser.py',28),
+  ('else_block -> ELSE COLON NEWLINE INDENT ignored_block DEDENT','else_block',6,'p_else_block','if_parser.py',32),
+  ('ignored_block -> statement_list','ignored_block',1,'p_ignored_block','if_parser.py',37),
+  ('ignored_block -> empty','ignored_block',1,'p_ignored_block','if_parser.py',38),
+  ('expression -> IDENTIFIER','expression',1,'p_expression','if_parser.py',42),
+  ('expression -> NUMBER','expression',1,'p_expression','if_parser.py',43),
+  ('expression -> IDENTIFIER EQUALS_EQUALS NUMBER','expression',3,'p_expression','if_parser.py',44),
+  ('expression -> IDENTIFIER GREATER NUMBER','expression',3,'p_expression','if_parser.py',45),
+  ('expression -> IDENTIFIER LESSER NUMBER','expression',3,'p_expression','if_parser.py',46),
+  ('expression -> IDENTIFIER GREATER_EQUALS NUMBER','expression',3,'p_expression','if_parser.py',47),
+  ('expression -> IDENTIFIER LESSER_EQUALS NUMBER','expression',3,'p_expression','if_parser.py',48),
+  ('assignment -> IDENTIFIER EQUALS NUMBER','assignment',3,'p_assignment','if_parser.py',52),
+  ('empty -> <empty>','empty',0,'p_empty','if_parser.py',56),
 ]

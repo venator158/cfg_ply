@@ -41,19 +41,12 @@ def t_error(t):
 
 lexer = lex.lex()
 
-input_lines = []
-while True:
-    line = input()
-    if line.strip() == "":
-        break
-    input_lines.append(line)
-input_code = "\n".join(input_lines)
-
-lexer.input(input_code)
-
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)
+def tokenize(input_code):
+    lexer.input(input_code)
+    tokens_list = []
+    while True:
+        tok = lexer.token()
+        if not tok: 
+            break
+        tokens_list.append(tok)
+    return tokens_list

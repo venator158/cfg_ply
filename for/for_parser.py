@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from for_lexer import tokens
+from for_lexer import tokens, tokenize
 
 def p_program(p):
     '''program : statement_list'''
@@ -78,6 +78,9 @@ def process_code():
     input_code = "\n".join(input_lines)
 
     print("\nParsing result:")
+    tokens = tokenize(input_code)
+    for token in tokens:
+        print(token)
     try:
         parser.parse(input_code)
     except SyntaxError as e:
@@ -86,33 +89,3 @@ def process_code():
 if __name__ == "__main__":
     while True:
         process_code()
-
-'''
-S → statement_list
-
-statement_list → statement
-statement_list → statement NEWLINE statement_list
-
-statement → assignment
-statement → for_loop
-statement → print_statement
-statement → increment
-statement → decrement
-statement → standalone_statement
-
-for_loop → FOR IDENTIFIER IN func_call COLON NEWLINE statement_list
-
-func_call → IDENTIFIER LPAREN NUMBER RPAREN
-func_call → IDENTIFIER LPAREN NUMBER COMMA NUMBER RPAREN
-func_call → IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
-
-assignment → IDENTIFIER EQUALS NUMBER
-
-print_statement → PRINT IDENTIFIER
-
-increment → IDENTIFIER PLUS_PLUS
-
-decrement → IDENTIFIER MINUS_MINUS
-
-standalone_statement → IDENTIFIER
-'''
