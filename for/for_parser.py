@@ -44,8 +44,8 @@ def p_assignment(p):
     print(f"Parsed assignment: {p[1]} = {p[3]}")
 
 def p_print_statement(p):
-    '''print_statement : PRINT IDENTIFIER'''
-    print(f"Parsed print statement with identifier: {p[2]}")
+    '''print_statement : PRINT LPAREN IDENTIFIER RPAREN'''
+    print(f"Parsed print statement with identifier: {p[3]}")
 
 def p_increment(p):
     '''increment : IDENTIFIER PLUS_PLUS'''
@@ -89,3 +89,35 @@ def process_code():
 if __name__ == "__main__":
     while True:
         process_code()
+
+
+'''
+S -> SL
+
+SL -> STMT NEWLINE SL
+   | STMT
+
+STMT -> FOR_LOOP
+     | ASSIGNMENT
+     | PRINT_STMT
+     | INCREMENT
+     | DECREMENT
+     | STANDALONE_STMT
+
+FOR_LOOP -> 'for' IDENTIFIER 'in' FUNC_CALL ':' NEWLINE SL
+
+ASSIGNMENT -> IDENTIFIER '=' NUMBER
+
+PRINT_STMT -> 'print' '(' IDENTIFIER ')'
+
+INCREMENT -> IDENTIFIER '++'
+
+DECREMENT -> IDENTIFIER '--'
+
+STANDALONE_STMT -> IDENTIFIER
+
+FUNC_CALL -> IDENTIFIER '(' NUMBER ')'
+          | IDENTIFIER '(' NUMBER ',' NUMBER ')'
+          | IDENTIFIER '(' NUMBER ',' NUMBER ',' NUMBER ')'
+
+'''

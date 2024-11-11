@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COLON COMMA EQUALS FOR IDENTIFIER IN LPAREN MINUS_MINUS NEWLINE NUMBER PLUS_PLUS PRINT RPARENprogram : statement_liststatement_list : statement\n                      | statement NEWLINE statement_liststatement : assignment\n                 | for_loop\n                 | print_statement\n                 | increment\n                 | decrement\n                 | standalone_statementfor_loop : FOR IDENTIFIER IN func_call COLON NEWLINE statement_listfunc_call : IDENTIFIER LPAREN NUMBER RPAREN\n                 | IDENTIFIER LPAREN NUMBER COMMA NUMBER RPAREN\n                 | IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPARENassignment : IDENTIFIER EQUALS NUMBERprint_statement : PRINT IDENTIFIERincrement : IDENTIFIER PLUS_PLUSdecrement : IDENTIFIER MINUS_MINUSstandalone_statement : IDENTIFIER'
+_lr_signature = 'COLON COMMA EQUALS FOR IDENTIFIER IN LPAREN MINUS_MINUS NEWLINE NUMBER PLUS_PLUS PRINT RPARENprogram : statement_liststatement_list : statement\n                      | statement NEWLINE statement_liststatement : assignment\n                 | for_loop\n                 | print_statement\n                 | increment\n                 | decrement\n                 | standalone_statementfor_loop : FOR IDENTIFIER IN func_call COLON NEWLINE statement_listfunc_call : IDENTIFIER LPAREN NUMBER RPAREN\n                 | IDENTIFIER LPAREN NUMBER COMMA NUMBER RPAREN\n                 | IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPARENassignment : IDENTIFIER EQUALS NUMBERprint_statement : PRINT LPAREN IDENTIFIER RPARENincrement : IDENTIFIER PLUS_PLUSdecrement : IDENTIFIER MINUS_MINUSstandalone_statement : IDENTIFIER'
     
-_lr_action_items = {'IDENTIFIER':([0,11,12,13,21,27,],[10,17,18,10,22,10,]),'FOR':([0,13,27,],[11,11,11,]),'PRINT':([0,13,27,],[12,12,12,]),'$end':([1,2,3,4,5,6,7,8,9,10,15,16,18,19,20,30,],[0,-1,-2,-4,-5,-6,-7,-8,-9,-18,-16,-17,-15,-3,-14,-10,]),'NEWLINE':([3,4,5,6,7,8,9,10,15,16,18,19,20,25,30,],[13,-4,-5,-6,-7,-8,-9,-18,-16,-17,-15,-3,-14,27,-10,]),'EQUALS':([10,],[14,]),'PLUS_PLUS':([10,],[15,]),'MINUS_MINUS':([10,],[16,]),'NUMBER':([14,24,29,32,],[20,26,31,34,]),'IN':([17,],[21,]),'LPAREN':([22,],[24,]),'COLON':([23,28,33,35,],[25,-11,-12,-13,]),'RPAREN':([26,31,34,],[28,33,35,]),'COMMA':([26,31,],[29,32,]),}
+_lr_action_items = {'IDENTIFIER':([0,11,13,18,21,29,],[10,17,10,22,23,10,]),'FOR':([0,13,29,],[11,11,11,]),'PRINT':([0,13,29,],[12,12,12,]),'$end':([1,2,3,4,5,6,7,8,9,10,15,16,19,20,25,32,],[0,-1,-2,-4,-5,-6,-7,-8,-9,-18,-16,-17,-3,-14,-15,-10,]),'NEWLINE':([3,4,5,6,7,8,9,10,15,16,19,20,25,27,32,],[13,-4,-5,-6,-7,-8,-9,-18,-16,-17,-3,-14,-15,29,-10,]),'EQUALS':([10,],[14,]),'PLUS_PLUS':([10,],[15,]),'MINUS_MINUS':([10,],[16,]),'LPAREN':([12,23,],[18,26,]),'NUMBER':([14,26,31,34,],[20,28,33,36,]),'IN':([17,],[21,]),'RPAREN':([22,28,33,36,],[25,30,35,37,]),'COLON':([24,30,35,37,],[27,-11,-12,-13,]),'COMMA':([28,33,],[31,34,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'statement_list':([0,13,27,],[2,19,30,]),'statement':([0,13,27,],[3,3,3,]),'assignment':([0,13,27,],[4,4,4,]),'for_loop':([0,13,27,],[5,5,5,]),'print_statement':([0,13,27,],[6,6,6,]),'increment':([0,13,27,],[7,7,7,]),'decrement':([0,13,27,],[8,8,8,]),'standalone_statement':([0,13,27,],[9,9,9,]),'func_call':([21,],[23,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statement_list':([0,13,29,],[2,19,32,]),'statement':([0,13,29,],[3,3,3,]),'assignment':([0,13,29,],[4,4,4,]),'for_loop':([0,13,29,],[5,5,5,]),'print_statement':([0,13,29,],[6,6,6,]),'increment':([0,13,29,],[7,7,7,]),'decrement':([0,13,29,],[8,8,8,]),'standalone_statement':([0,13,29,],[9,9,9,]),'func_call':([21,],[24,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,22 +27,22 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> statement_list','program',1,'p_program','parser.py',5),
-  ('statement_list -> statement','statement_list',1,'p_statement_list','parser.py',9),
-  ('statement_list -> statement NEWLINE statement_list','statement_list',3,'p_statement_list','parser.py',10),
-  ('statement -> assignment','statement',1,'p_statement','parser.py',14),
-  ('statement -> for_loop','statement',1,'p_statement','parser.py',15),
-  ('statement -> print_statement','statement',1,'p_statement','parser.py',16),
-  ('statement -> increment','statement',1,'p_statement','parser.py',17),
-  ('statement -> decrement','statement',1,'p_statement','parser.py',18),
-  ('statement -> standalone_statement','statement',1,'p_statement','parser.py',19),
-  ('for_loop -> FOR IDENTIFIER IN func_call COLON NEWLINE statement_list','for_loop',7,'p_for_loop','parser.py',23),
-  ('func_call -> IDENTIFIER LPAREN NUMBER RPAREN','func_call',4,'p_func_call','parser.py',28),
-  ('func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER RPAREN','func_call',6,'p_func_call','parser.py',29),
-  ('func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN','func_call',8,'p_func_call','parser.py',30),
-  ('assignment -> IDENTIFIER EQUALS NUMBER','assignment',3,'p_assignment','parser.py',43),
-  ('print_statement -> PRINT IDENTIFIER','print_statement',2,'p_print_statement','parser.py',47),
-  ('increment -> IDENTIFIER PLUS_PLUS','increment',2,'p_increment','parser.py',51),
-  ('decrement -> IDENTIFIER MINUS_MINUS','decrement',2,'p_decrement','parser.py',55),
-  ('standalone_statement -> IDENTIFIER','standalone_statement',1,'p_standalone_statement','parser.py',59),
+  ('program -> statement_list','program',1,'p_program','for_parser.py',5),
+  ('statement_list -> statement','statement_list',1,'p_statement_list','for_parser.py',9),
+  ('statement_list -> statement NEWLINE statement_list','statement_list',3,'p_statement_list','for_parser.py',10),
+  ('statement -> assignment','statement',1,'p_statement','for_parser.py',14),
+  ('statement -> for_loop','statement',1,'p_statement','for_parser.py',15),
+  ('statement -> print_statement','statement',1,'p_statement','for_parser.py',16),
+  ('statement -> increment','statement',1,'p_statement','for_parser.py',17),
+  ('statement -> decrement','statement',1,'p_statement','for_parser.py',18),
+  ('statement -> standalone_statement','statement',1,'p_statement','for_parser.py',19),
+  ('for_loop -> FOR IDENTIFIER IN func_call COLON NEWLINE statement_list','for_loop',7,'p_for_loop','for_parser.py',23),
+  ('func_call -> IDENTIFIER LPAREN NUMBER RPAREN','func_call',4,'p_func_call','for_parser.py',28),
+  ('func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER RPAREN','func_call',6,'p_func_call','for_parser.py',29),
+  ('func_call -> IDENTIFIER LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN','func_call',8,'p_func_call','for_parser.py',30),
+  ('assignment -> IDENTIFIER EQUALS NUMBER','assignment',3,'p_assignment','for_parser.py',43),
+  ('print_statement -> PRINT LPAREN IDENTIFIER RPAREN','print_statement',4,'p_print_statement','for_parser.py',47),
+  ('increment -> IDENTIFIER PLUS_PLUS','increment',2,'p_increment','for_parser.py',51),
+  ('decrement -> IDENTIFIER MINUS_MINUS','decrement',2,'p_decrement','for_parser.py',55),
+  ('standalone_statement -> IDENTIFIER','standalone_statement',1,'p_standalone_statement','for_parser.py',59),
 ]

@@ -8,6 +8,7 @@ test_code = [
     "string name = \"Alice\";",
     "int invalid_var = ;",  # Invalid syntax
     "float num = 42.0;", 
+    "int x=ksdjbf;",
 ]
 
 for code in test_code:

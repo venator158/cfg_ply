@@ -2,7 +2,7 @@ import ply.lex as lex
 
 tokens = (
     'IF', 'ELIF', 'ELSE',
-    'PRINT',
+    'PRINT', 'LPAREN', 'RPAREN',
     'IDENTIFIER', 'NUMBER',
     'EQUALS', 'COLON', 'NEWLINE',
     'GREATER', 'LESSER', 'GREATER_EQUALS', 'LESSER_EQUALS', 'EQUALS_EQUALS',
@@ -11,6 +11,8 @@ tokens = (
 
 t_EQUALS = r'='
 t_EQUALS_EQUALS = r'=='
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
 t_COLON = r':'
 t_GREATER = r'>'
 t_LESSER = r'<'

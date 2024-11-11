@@ -72,8 +72,8 @@ def p_assignment(p):
     print(f"Parsed assignment: {p[1]} = {p[3]}")
 
 def p_print_statement(p):
-    '''print_statement : PRINT IDENTIFIER'''
-    print(f"Parsed print statement with identifier: {p[2]}")
+    '''print_statement : PRINT LPAREN IDENTIFIER RPAREN'''
+    print(f"Parsed print statement with identifier: {p[3]}")
 
 def p_increment(p):
     '''increment : IDENTIFIER PLUS_PLUS'''
@@ -89,7 +89,7 @@ def p_standalone_statement(p):
 
 def p_error(p):
     if p:
-        print(f"Syntax error")
+        print(f"Syntax error at '{p.value}' at line {p.lineno}")
     else:
         print("Syntax error at EOF")
 
@@ -117,3 +117,48 @@ def process_code():
 if __name__ == "__main__":
     while True:
         process_code()
+
+
+'''
+S -> SL
+
+SL -> STMT NEWLINE SL
+   | STMT
+
+STMT -> IF_STMT
+     | ASSIGNMENT
+     | PRINT_STMT
+     | INCREMENT
+     | DECREMENT
+     | STANDALONE_STMT
+     | ELIF_BLOCK
+     | ELSE_BLOCK
+
+IF_STMT -> 'if' EXPR ':' NEWLINE SL
+         | 'if' EXPR ':' NEWLINE SL NEWLINE IF_STMT
+         | 'if' EXPR ':' NEWLINE SL NEWLINE ELIF_BLOCK
+         | 'if' EXPR ':' NEWLINE SL NEWLINE ELSE_BLOCK
+         | 'if' EXPR ':' NEWLINE SL NEWLINE ELIF_BLOCK NEWLINE ELSE_BLOCK
+
+ELIF_BLOCK -> 'elif' EXPR ':' NEWLINE SL
+            | 'elif' EXPR ':' NEWLINE SL NEWLINE ELIF_BLOCK
+
+ELSE_BLOCK -> 'else' ':' NEWLINE SL
+
+EXPR -> IDENTIFIER
+      | NUMBER
+      | IDENTIFIER '==' NUMBER
+      | IDENTIFIER '>' NUMBER
+      | IDENTIFIER '<' NUMBER
+      | IDENTIFIER '>=' NUMBER
+      | IDENTIFIER '<=' NUMBER
+
+ASSIGNMENT -> IDENTIFIER '=' NUMBER
+
+PRINT_STMT -> 'print' '(' IDENTIFIER ')'
+
+INCREMENT -> IDENTIFIER '++'
+
+DECREMENT -> IDENTIFIER '--'
+
+STANDALONE_STMT -> IDENTIFIER'''
